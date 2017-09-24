@@ -22,6 +22,12 @@ public class RepoTag {
 
   private String tag;
 
+  public RepoTag() {}
+
+  public RepoTag(String tag) {
+    this.tag = tag;
+  }
+
   public String getTag() {
     return tag;
   }
