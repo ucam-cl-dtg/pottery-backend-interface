@@ -91,6 +91,13 @@ public interface TasksController {
   @ApiOperation(value = "Create a new task", response = TaskLocation.class)
   TaskLocation create(@Context UriInfo uriInfo) throws TaskStorageException;
 
+  @POST
+  @Path("/create_remote")
+  @ApiOperation(
+    value = "Create a remote task (whose definition will be stored on another server)",
+    response = TaskLocation.class
+  )
+  TaskLocation createRemote() throws TaskStorageException;
 
   @GET
   @Path("/{taskId}")
