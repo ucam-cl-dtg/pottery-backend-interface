@@ -18,6 +18,7 @@
 
 package uk.ac.cam.cl.dtg.teaching.pottery.api;
 
+import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import java.util.Collection;
 import java.util.List;
@@ -27,6 +28,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
@@ -36,7 +38,15 @@ import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.TaskStorageException;
 import uk.ac.cam.cl.dtg.teaching.pottery.model.BuilderInfo;
 import uk.ac.cam.cl.dtg.teaching.pottery.model.Criterion;
 import uk.ac.cam.cl.dtg.teaching.pottery.model.TaskInfo;
+import uk.ac.cam.cl.dtg.teaching.pottery.model.TaskLocation;
 
+@Produces("application/json")
+@Path("/tasks")
+@Api(
+  value = "/tasks",
+  description = "Manages the descriptions of the programming questions.",
+  position = 0
+)
 public interface TasksController {
   @GET
   @Path("/registered")
@@ -78,8 +88,9 @@ public interface TasksController {
 
   @POST
   @Path("/create")
-  @ApiOperation(value = "Create a new task", response = TaskInfo.class)
-  Response create(@Context UriInfo uriInfo) throws TaskStorageException;
+  @ApiOperation(value = "Create a new task", response = TaskLocation.class)
+  TaskLocation create(@Context UriInfo uriInfo) throws TaskStorageException;
+
 
   @GET
   @Path("/{taskId}")
@@ -106,7 +117,7 @@ public interface TasksController {
   @GET
   @Path("/{taskId}/registering_status")
   @ApiOperation(value = "Polls the progress of the current registration process.")
-  BuilderInfo pollTaskRegistraionStatus(@PathParam("taskId") String taskId)
+  BuilderInfo pollTaskRegistrationStatus(@PathParam("taskId") String taskId)
       throws TaskNotFoundException;
 
   @POST

@@ -18,11 +18,16 @@
 
 package uk.ac.cam.cl.dtg.teaching.pottery.api;
 
+import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import java.util.Map;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 
+@Produces("application/json")
+@Path("/status")
+@Api(value = "/status", description = "Server status", position = 0)
 public interface StatusController {
   @GET
   @Path("/")

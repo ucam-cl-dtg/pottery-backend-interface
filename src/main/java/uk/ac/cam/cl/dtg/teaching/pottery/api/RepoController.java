@@ -18,6 +18,7 @@
 
 package uk.ac.cam.cl.dtg.teaching.pottery.api;
 
+import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import java.util.List;
 import javax.ws.rs.Consumes;
@@ -41,6 +42,9 @@ import uk.ac.cam.cl.dtg.teaching.pottery.model.FileData;
 import uk.ac.cam.cl.dtg.teaching.pottery.model.RepoInfo;
 import uk.ac.cam.cl.dtg.teaching.pottery.model.RepoTag;
 
+@Produces("application/json")
+@Path("/repo")
+@Api(value = "/repo", description = "Manages the candidates attempt at the task", position = 1)
 public interface RepoController {
   @POST
   @Path("/")

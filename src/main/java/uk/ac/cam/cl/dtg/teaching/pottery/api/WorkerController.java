@@ -18,15 +18,20 @@
 
 package uk.ac.cam.cl.dtg.teaching.pottery.api;
 
+import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import java.util.List;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import uk.ac.cam.cl.dtg.teaching.pottery.model.JobStatus;
 
+@Produces("application/json")
+@Path("/worker")
+@Api(value = "/worker", description = "Manages the work queue.", position = 0)
 public interface WorkerController {
   @GET
   @Path("/")

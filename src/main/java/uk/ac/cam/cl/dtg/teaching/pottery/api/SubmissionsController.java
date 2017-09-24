@@ -18,11 +18,13 @@
 
 package uk.ac.cam.cl.dtg.teaching.pottery.api;
 
+import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.RepoExpiredException;
 import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.RepoNotFoundException;
 import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.RepoStorageException;
@@ -31,6 +33,9 @@ import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.SubmissionNotFoundException;
 import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.SubmissionStorageException;
 import uk.ac.cam.cl.dtg.teaching.pottery.model.Submission;
 
+@Produces("application/json")
+@Path("/submissions")
+@Api(value = "/submissions", description = "Manages requests for testing", position = 2)
 public interface SubmissionsController {
   @POST
   @Path("/{repoId}/{tag}")
