@@ -97,7 +97,7 @@ public interface TasksController {
     value = "Create a remote task (whose definition will be stored on another server)",
     response = TaskLocation.class
   )
-  TaskLocation createRemote() throws TaskStorageException;
+  TaskLocation createRemote(@FormParam("remote") String remote) throws TaskStorageException;
 
   @GET
   @Path("/{taskId}")
