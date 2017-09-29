@@ -22,50 +22,47 @@ import java.util.Date;
 
 public class RepoInfo {
 
+  public static final String REMOTE_UNSET = "";
+
   private String repoId;
   private String taskId;
   private boolean usingTestingVersion;
   private Date expiryDate;
 
-  public RepoInfo() {}
+  /** If this value is set then indicates that this repo is hosted remotely */
+  private String remote;
 
-  public RepoInfo(String repoId, String taskId, boolean usingTestingVersion, Date expiryDate) {
+  public RepoInfo(
+      String repoId, String taskId, boolean usingTestingVersion, Date expiryDate, String remote) {
     super();
     this.repoId = repoId;
     this.taskId = taskId;
     this.usingTestingVersion = usingTestingVersion;
     this.expiryDate = expiryDate;
+    this.remote = remote;
   }
 
   public Date getExpiryDate() {
     return expiryDate;
   }
 
-  public void setExpiryDate(Date expiryDate) {
-    this.expiryDate = expiryDate;
-  }
-
   public String getRepoId() {
     return repoId;
-  }
-
-  public void setRepoId(String repoId) {
-    this.repoId = repoId;
   }
 
   public String getTaskId() {
     return taskId;
   }
 
-  public void setTaskId(String taskId) {
-    this.taskId = taskId;
-  }
-
   public boolean isUsingTestingVersion() {
     return usingTestingVersion;
   }
 
-  public void setUsingTestingVersion(boolean usingTestingVersion) {
-    this.usingTestingVersion = usingTestingVersion;
+  public String getRemote() {
+    return remote;
+  }
+
+  public boolean isRemote() {
+    return !remote.equals(REMOTE_UNSET);
   }
 }

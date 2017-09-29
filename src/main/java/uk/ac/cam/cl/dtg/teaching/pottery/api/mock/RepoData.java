@@ -41,7 +41,8 @@ class RepoData {
             String.format("Mock%03d", repoIdCounter.incrementAndGet()),
             taskId,
             usingTestingVersion,
-            cal.getTime());
+            cal.getTime(),
+            RepoInfo.REMOTE_UNSET);
   }
 
   String addTag() {

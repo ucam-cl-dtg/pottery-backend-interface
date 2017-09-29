@@ -48,6 +48,14 @@ public class MockRepoController implements RepoController {
   }
 
   @Override
+  public RepoInfo makeRemoteRepo(
+      String taskId, Boolean usingTestingVersion, Integer validityMinutes, String remote)
+      throws TaskNotFoundException, RepoExpiredException, RepoStorageException,
+          RetiredTaskException, RepoNotFoundException {
+    throw new Error("makeRemoteRepo is unimplemented");
+  }
+
+  @Override
   public List<String> listTags(String repoId) throws RepoStorageException, RepoNotFoundException {
     return mockRepos.get(repoId).tags;
   }

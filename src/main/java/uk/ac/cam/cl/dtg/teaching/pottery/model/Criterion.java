@@ -185,7 +185,7 @@ public class Criterion {
     this.unit = unit;
   }
 
-  class Units {
+  static class Units {
     public static final String UNIT_COMPLEXITYCLASS = "COMPLEXITYCLASS";
     public static final String UNIT_MILLISECOND = "MS";
     public static final String UNIT_BYTES = "BYTES";

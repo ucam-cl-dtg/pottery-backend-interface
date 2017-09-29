@@ -60,6 +60,21 @@ public interface RepoController {
       throws TaskNotFoundException, RepoExpiredException, RepoStorageException,
           RetiredTaskException, RepoNotFoundException;
 
+  @POST
+  @Path("/remote")
+  @ApiOperation(
+    value = "Start a new remote repository",
+    notes = "Starts a new repository for solving the specified task that is hosted remotely",
+    position = 1
+  )
+  RepoInfo makeRemoteRepo(
+      @FormParam("taskId") String taskId,
+      @FormParam("usingTestingVersion") Boolean usingTestingVersion,
+      @FormParam("validityMinutes") Integer validityMinutes,
+      @FormParam("remote") String remote)
+      throws TaskNotFoundException, RepoExpiredException, RepoStorageException,
+          RetiredTaskException, RepoNotFoundException;
+
   @GET
   @Path("/{repoId}")
   @ApiOperation(
