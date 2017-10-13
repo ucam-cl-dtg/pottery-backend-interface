@@ -36,7 +36,7 @@ public class PotteryBackendImpl implements PotteryBackend {
   private TasksController tasksController;
   private WorkerController workerController;
 
-  public PotteryBackendImpl(String hostname, int port, int maxConnections) {
+  public PotteryBackendImpl(String url, int maxConnections) {
     PoolingClientConnectionManager cm = new PoolingClientConnectionManager();
     cm.setDefaultMaxPerRoute(maxConnections);
     cm.setMaxTotal(maxConnections);
@@ -44,7 +44,7 @@ public class PotteryBackendImpl implements PotteryBackend {
     ApacheHttpClient4Engine engine = new ApacheHttpClient4Engine(httpClient);
     ResteasyClient c =
         new ResteasyClientBuilder().maxPooledPerRoute(maxConnections).httpEngine(engine).build();
-    webTarget = c.target("http://" + hostname + ":" + port + "/v1.21");
+    webTarget = c.target(url);
     repoController = webTarget.proxy(RepoController.class);
     statusController = webTarget.proxy(StatusController.class);
     submissionsController = webTarget.proxy(SubmissionsController.class);
