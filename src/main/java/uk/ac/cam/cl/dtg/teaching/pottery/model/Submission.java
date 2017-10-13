@@ -18,6 +18,8 @@
 
 package uk.ac.cam.cl.dtg.teaching.pottery.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -62,20 +64,21 @@ public class Submission {
   private boolean needsRetry;
   private String interpretation;
 
+  @JsonCreator
   public Submission(
-      String repoId,
-      String tag,
-      String compilationOutput,
-      long compilationTimeMs,
-      long harnessTimeMs,
-      long validatorTimeMs,
-      long waitTimeMs,
-      List<TestStep> testSteps,
-      String errorMessage,
-      String status,
-      Date dateScheduled,
-      String interpretation,
-      boolean needsRetry) {
+      @JsonProperty("repoId") String repoId,
+      @JsonProperty("tag") String tag,
+      @JsonProperty("compilationOutput") String compilationOutput,
+      @JsonProperty("compilationTimeMs") long compilationTimeMs,
+      @JsonProperty("harnessTimeMs") long harnessTimeMs,
+      @JsonProperty("validatorTimeMs") long validatorTimeMs,
+      @JsonProperty("waitTimeMs") long waitTimeMs,
+      @JsonProperty("testSteps") List<TestStep> testSteps,
+      @JsonProperty("errorMessage") String errorMessage,
+      @JsonProperty("status") String status,
+      @JsonProperty("dateScheduled") Date dateScheduled,
+      @JsonProperty("interpretation") String interpretation,
+      @JsonProperty("needsRetry") boolean needsRetry) {
     super();
     this.repoId = repoId;
     this.tag = tag;
@@ -291,5 +294,43 @@ public class Submission {
 
       status = STATUS_COMPLETE;
     }
+  }
+
+  @Override
+  public String toString() {
+    return "Submission{"
+        + "repoId='"
+        + repoId
+        + '\''
+        + ", tag='"
+        + tag
+        + '\''
+        + ", compilationOutput='"
+        + compilationOutput
+        + '\''
+        + ", compilationTimeMs="
+        + compilationTimeMs
+        + ", harnessTimeMs="
+        + harnessTimeMs
+        + ", validatorTimeMs="
+        + validatorTimeMs
+        + ", waitTimeMs="
+        + waitTimeMs
+        + ", dateScheduled="
+        + dateScheduled
+        + ", testSteps="
+        + testSteps
+        + ", errorMessage='"
+        + errorMessage
+        + '\''
+        + ", status='"
+        + status
+        + '\''
+        + ", needsRetry="
+        + needsRetry
+        + ", interpretation='"
+        + interpretation
+        + '\''
+        + '}';
   }
 }

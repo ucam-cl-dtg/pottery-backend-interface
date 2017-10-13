@@ -18,6 +18,8 @@
 
 package uk.ac.cam.cl.dtg.teaching.pottery.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
 
 public class RepoInfo {
@@ -32,8 +34,13 @@ public class RepoInfo {
   /** If this value is set then indicates that this repo is hosted remotely */
   private String remote;
 
+  @JsonCreator
   public RepoInfo(
-      String repoId, String taskId, boolean usingTestingVersion, Date expiryDate, String remote) {
+      @JsonProperty("repoId") String repoId,
+      @JsonProperty("taskId") String taskId,
+      @JsonProperty("usingTestingVersion") boolean usingTestingVersion,
+      @JsonProperty("expiryDate") Date expiryDate,
+      @JsonProperty("remote") String remote) {
     super();
     this.repoId = repoId;
     this.taskId = taskId;
