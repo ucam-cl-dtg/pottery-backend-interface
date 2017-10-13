@@ -42,7 +42,8 @@ public class MockRepoController implements RepoController {
   public RepoInfo makeRepo(String taskId, Boolean usingTestingVersion, Integer validityMinutes)
       throws TaskNotFoundException, RepoExpiredException, RepoStorageException,
           RetiredTaskException, RepoNotFoundException {
-    RepoData repoData = new RepoData(taskId, usingTestingVersion, validityMinutes);
+    RepoData repoData =
+        new RepoData(taskId, usingTestingVersion, validityMinutes, RepoInfo.REMOTE_UNSET);
     mockRepos.put(repoData.repoInfo.getRepoId(), repoData);
     return repoData.repoInfo;
   }
@@ -52,7 +53,8 @@ public class MockRepoController implements RepoController {
       String taskId, Boolean usingTestingVersion, Integer validityMinutes, String remote)
       throws TaskNotFoundException, RepoExpiredException, RepoStorageException,
           RetiredTaskException, RepoNotFoundException {
-    throw new Error("makeRemoteRepo is unimplemented");
+    RepoData repoData = new RepoData(taskId, usingTestingVersion, validityMinutes, remote);
+    return repoData.repoInfo;
   }
 
   @Override
