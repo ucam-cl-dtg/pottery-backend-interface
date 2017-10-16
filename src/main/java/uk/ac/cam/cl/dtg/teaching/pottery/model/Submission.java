@@ -270,7 +270,7 @@ public class Submission {
 
     public void setComplete() {
 
-      if (errorMessage != null) {
+      if (errorMessage != null && !errorMessage.trim().equals("")) {
         interpretation = INTERPRETATION_BAD;
       }
 
