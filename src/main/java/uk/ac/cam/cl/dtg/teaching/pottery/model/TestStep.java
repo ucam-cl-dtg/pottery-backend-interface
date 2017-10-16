@@ -112,4 +112,23 @@ public class TestStep {
   public String getErrorDetail() {
     return errorDetail;
   }
+
+  @Override
+  public String toString() {
+    return "TestStep{"
+        + "testSteps="
+        + testSteps
+        + ", testSummary='"
+        + testSummary
+        + '\''
+        + ", measurements="
+        + measurements
+        + ", errorSummary='"
+        + errorSummary
+        + '\''
+        + ", errorDetail='"
+        + errorDetail
+        + '\''
+        + '}';
+  }
 }

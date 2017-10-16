@@ -70,4 +70,22 @@ public class InterpretedMeasurement {
   public String getExplanation() {
     return explanation;
   }
+
+  @Override
+  public String toString() {
+    return "InterpretedMeasurement{"
+        + "criterion='"
+        + criterion
+        + '\''
+        + ", measurement='"
+        + measurement
+        + '\''
+        + ", result='"
+        + result
+        + '\''
+        + ", explanation='"
+        + explanation
+        + '\''
+        + '}';
+  }
 }
