@@ -18,6 +18,9 @@
 
 package uk.ac.cam.cl.dtg.teaching.pottery.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import uk.ac.cam.cl.dtg.teaching.exceptions.SerializableException;
 import uk.ac.cam.cl.dtg.teaching.programmingtest.containerinterface.HarnessResponse;
 import uk.ac.cam.cl.dtg.teaching.programmingtest.containerinterface.ValidatorResponse;
 
@@ -47,7 +50,7 @@ public class BuilderInfo {
    * Will contain an exception object if a problem occurred during building. This is updated and
    * read from multiple threads so its volatile.
    */
-  private volatile Exception exception;
+  private volatile SerializableException exception;
 
   private volatile String testCompileResponse;
 
@@ -62,6 +65,24 @@ public class BuilderInfo {
     this.sha1 = sha1;
     this.status = BuilderInfo.STATUS_NOT_STARTED;
     this.exception = null;
+  }
+
+  @JsonCreator
+  public BuilderInfo(
+      @JsonProperty("sha1") String sha1,
+      @JsonProperty("status") String status,
+      @JsonProperty("exception") SerializableException exception,
+      @JsonProperty("testCompileResponse") String testCompileResponse,
+      @JsonProperty("solutionCompileResponse") String solutionCompileResponse,
+      @JsonProperty("harnessResponse") HarnessResponse harnessResponse,
+      @JsonProperty("validatorResponse") ValidatorResponse validatorResponse) {
+    this.sha1 = sha1;
+    this.status = status;
+    this.exception = exception;
+    this.testCompileResponse = testCompileResponse;
+    this.solutionCompileResponse = solutionCompileResponse;
+    this.harnessResponse = harnessResponse;
+    this.validatorResponse = validatorResponse;
   }
 
   public static int statusToInt(String status) {
@@ -100,12 +121,12 @@ public class BuilderInfo {
     this.status = status;
   }
 
-  public Exception getException() {
+  public SerializableException getException() {
     return exception;
   }
 
   public void setException(Exception exception) {
-    this.exception = exception;
+    this.exception = new SerializableException(exception);
     this.status = BuilderInfo.STATUS_FAILURE;
   }
 
