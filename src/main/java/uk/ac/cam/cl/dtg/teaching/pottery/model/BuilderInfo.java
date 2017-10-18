@@ -165,4 +165,28 @@ public class BuilderInfo {
   public void setValidatorResponse(ValidatorResponse validatorResponse) {
     this.validatorResponse = validatorResponse;
   }
+
+  @Override
+  public String toString() {
+    return "BuilderInfo{"
+        + "sha1='"
+        + sha1
+        + '\''
+        + ", status='"
+        + status
+        + '\''
+        + ", exception="
+        + exception
+        + ", testCompileResponse='"
+        + testCompileResponse
+        + '\''
+        + ", solutionCompileResponse='"
+        + solutionCompileResponse
+        + '\''
+        + ", harnessResponse="
+        + harnessResponse
+        + ", validatorResponse="
+        + validatorResponse
+        + '}';
+  }
 }
