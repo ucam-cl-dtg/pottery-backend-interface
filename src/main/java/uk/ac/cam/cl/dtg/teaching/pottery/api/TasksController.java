@@ -39,6 +39,7 @@ import uk.ac.cam.cl.dtg.teaching.pottery.model.BuilderInfo;
 import uk.ac.cam.cl.dtg.teaching.pottery.model.Criterion;
 import uk.ac.cam.cl.dtg.teaching.pottery.model.TaskInfo;
 import uk.ac.cam.cl.dtg.teaching.pottery.model.TaskLocation;
+import uk.ac.cam.cl.dtg.teaching.pottery.model.TaskStatus;
 
 @Produces("application/json")
 @Path("/tasks")
@@ -103,6 +104,15 @@ public interface TasksController {
   @Path("/{taskId}")
   @ApiOperation(value = "Returns information about a specific task", response = TaskInfo.class)
   TaskInfo getTask(@PathParam("taskId") String taskId) throws TaskNotFoundException;
+
+  @GET
+  @Path("/{taskId}/status")
+  @ApiOperation(
+    value = "Returns the SHA1 of refs/heads/master for this task",
+    response = String.class
+  )
+  TaskStatus getStatus(@PathParam("taskId") String taskId)
+      throws TaskNotFoundException, TaskStorageException;
 
   @POST
   @Path("/{taskId}/retire")
