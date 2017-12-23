@@ -38,4 +38,13 @@ public interface StatusController {
     position = 0
   )
   Map<String, String> getStatus();
+
+  @GET
+  @Path("/dockerVersion")
+  @ApiOperation(
+    value = "Query the docker api for the version number",
+    response = String.class,
+    position = 1
+  )
+  String checkDockerVersion();
 }
