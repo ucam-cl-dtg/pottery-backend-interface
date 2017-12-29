@@ -1,5 +1,5 @@
 /*
- * pottery-backend - Backend API for testing programming exercises
+ * pottery-backend-interface - Backend API for testing programming exercises
  * Copyright © 2015 Andrew Rice (acr31@cam.ac.uk)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,7 +27,7 @@ import java.util.Set;
 public class TaskInfo {
 
   /**
-   * Algorithms & Data Structures: Tests the ability of the developer to compose algorithms and
+   * Algorithms &amp; Data Structures: Tests the ability of the developer to compose algorithms and
    * design appropriate data structures to solve the problem set out in the test.
    */
   public static final String TYPE_ALGORITHM = "ALGORITHMS";
@@ -57,13 +57,13 @@ public class TaskInfo {
   public static final String TYPE_IO = "IO";
 
   /**
-   * Cache & Memory Management: Evaluates the developers ability to implement strategies that result
-   * in appropriate cache and memory usage approaches in a test solution.
+   * Cache &amp; Memory Management: Evaluates the developers ability to implement strategies that
+   * result in appropriate cache and memory usage approaches in a test solution.
    */
   public static final String TYPE_MEMORY = "MEMORY";
 
   /**
-   * Using Existing APIs & Libraries: Test the ability of a developer to appropriately exploit
+   * Using Existing APIs &amp; Libraries: Test the ability of a developer to appropriately exploit
    * existing libraries and APIs to achieve the required test solution.
    */
   public static final String TYPE_LIBRARY = "LIBRARY";

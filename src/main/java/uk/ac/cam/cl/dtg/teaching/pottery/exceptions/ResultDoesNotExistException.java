@@ -1,5 +1,5 @@
 /*
- * pottery-backend - Backend API for testing programming exercises
+ * pottery-backend-interface - Backend API for testing programming exercises
  * Copyright © 2015 Andrew Rice (acr31@cam.ac.uk)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,28 +22,22 @@ public class ResultDoesNotExistException extends Exception {
 
   private static final long serialVersionUID = 1L;
 
-  public ResultDoesNotExistException() {
-    // TODO Auto-generated constructor stub
-  }
+  public ResultDoesNotExistException() {}
 
   public ResultDoesNotExistException(String message) {
     super(message);
-    // TODO Auto-generated constructor stub
   }
 
   public ResultDoesNotExistException(Throwable cause) {
     super(cause);
-    // TODO Auto-generated constructor stub
   }
 
   public ResultDoesNotExistException(String message, Throwable cause) {
     super(message, cause);
-    // TODO Auto-generated constructor stub
   }
 
   public ResultDoesNotExistException(
       String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
     super(message, cause, enableSuppression, writableStackTrace);
-    // TODO Auto-generated constructor stub
   }
 }

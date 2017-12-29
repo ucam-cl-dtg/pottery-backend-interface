@@ -1,5 +1,5 @@
 /*
- * pottery-backend - Backend API for testing programming exercises
+ * pottery-backend-interface - Backend API for testing programming exercises
  * Copyright © 2015 Andrew Rice (acr31@cam.ac.uk)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,28 +22,22 @@ public class RepoStorageException extends Exception {
 
   private static final long serialVersionUID = 1L;
 
-  public RepoStorageException() {
-    // TODO Auto-generated constructor stub
-  }
+  public RepoStorageException() {}
 
   public RepoStorageException(String message) {
     super(message);
-    // TODO Auto-generated constructor stub
   }
 
   public RepoStorageException(Throwable cause) {
     super(cause);
-    // TODO Auto-generated constructor stub
   }
 
   public RepoStorageException(String message, Throwable cause) {
     super(message, cause);
-    // TODO Auto-generated constructor stub
   }
 
   public RepoStorageException(
       String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
     super(message, cause, enableSuppression, writableStackTrace);
-    // TODO Auto-generated constructor stub
   }
 }
