@@ -28,7 +28,6 @@ import javax.ws.rs.Produces;
 import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.RepoExpiredException;
 import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.RepoNotFoundException;
 import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.RepoStorageException;
-import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.RepoTagNotFoundException;
 import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.SubmissionNotFoundException;
 import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.SubmissionStorageException;
 import uk.ac.cam.cl.dtg.teaching.pottery.model.Submission;
@@ -45,8 +44,8 @@ public interface SubmissionsController {
     position = 0
   )
   Submission scheduleTest(@PathParam("repoId") String repoId, @PathParam("tag") String tag)
-      throws SubmissionNotFoundException, RepoStorageException, RepoExpiredException,
-          SubmissionStorageException, RepoNotFoundException, RepoTagNotFoundException;
+      throws RepoStorageException, RepoExpiredException, SubmissionStorageException,
+          RepoNotFoundException;
 
   @GET
   @Path("/{repoId}/{tag}")
