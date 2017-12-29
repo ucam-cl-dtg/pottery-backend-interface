@@ -4,7 +4,7 @@
     <artifactId>pottery-backend-interface</artifactId>
     <packaging>jar</packaging>
     <version>1.0.1-SNAPSHOT</version>
-    <name>pottery-backend</name>
+    <name>pottery-backend-interface</name>
 
     <properties>
         <resteasy.version>3.0.8.Final</resteasy.version>
