@@ -31,7 +31,7 @@ public class RepoInfo {
   private boolean usingTestingVersion;
   private Date expiryDate;
 
-  /** If this value is set then indicates that this repo is hosted remotely */
+  /** If this value is set then indicates that this repo is hosted remotely. */
   private String remote;
 
   @JsonCreator
