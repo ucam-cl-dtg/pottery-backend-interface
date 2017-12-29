@@ -20,29 +20,19 @@ package uk.ac.cam.cl.dtg.teaching.pottery.api.mock;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import uk.ac.cam.cl.dtg.teaching.pottery.api.SubmissionsController;
-import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.RepoExpiredException;
-import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.RepoNotFoundException;
-import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.RepoStorageException;
-import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.RepoTagNotFoundException;
-import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.SubmissionNotFoundException;
-import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.SubmissionStorageException;
 import uk.ac.cam.cl.dtg.teaching.pottery.model.Submission;
 
 public class MockSubmissionsController implements SubmissionsController {
 
   @Override
-  public Submission scheduleTest(String repoId, String tag)
-      throws SubmissionNotFoundException, RepoStorageException, RepoExpiredException,
-          SubmissionStorageException, RepoNotFoundException, RepoTagNotFoundException {
+  public Submission scheduleTest(String repoId, String tag) {
     return Submission.builder(repoId, tag).setStatus(Submission.STATUS_PENDING).build();
   }
 
   private AtomicInteger counter = new AtomicInteger(0);
 
   @Override
-  public Submission getSubmission(String repoId, String tag)
-      throws SubmissionNotFoundException, RepoStorageException, SubmissionStorageException,
-          RepoNotFoundException {
+  public Submission getSubmission(String repoId, String tag) {
     return Submission.builder(repoId, tag)
         .setStatus(Submission.STATUS_COMPLETE)
         .setInterpretation(String.format("Polling %d", counter.incrementAndGet()))

@@ -23,13 +23,6 @@ import java.util.List;
 import java.util.Map;
 import javax.ws.rs.core.Response;
 import uk.ac.cam.cl.dtg.teaching.pottery.api.RepoController;
-import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.RepoExpiredException;
-import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.RepoFileNotFoundException;
-import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.RepoNotFoundException;
-import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.RepoStorageException;
-import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.RepoTagNotFoundException;
-import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.RetiredTaskException;
-import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.TaskNotFoundException;
 import uk.ac.cam.cl.dtg.teaching.pottery.model.FileData;
 import uk.ac.cam.cl.dtg.teaching.pottery.model.RepoInfo;
 import uk.ac.cam.cl.dtg.teaching.pottery.model.RepoTag;
@@ -39,9 +32,7 @@ public class MockRepoController implements RepoController {
   private Map<String, RepoData> mockRepos = new HashMap<>();
 
   @Override
-  public RepoInfo makeRepo(String taskId, Boolean usingTestingVersion, Integer validityMinutes)
-      throws TaskNotFoundException, RepoExpiredException, RepoStorageException,
-          RetiredTaskException, RepoNotFoundException {
+  public RepoInfo makeRepo(String taskId, Boolean usingTestingVersion, Integer validityMinutes) {
     RepoData repoData =
         new RepoData(taskId, usingTestingVersion, validityMinutes, RepoInfo.REMOTE_UNSET);
     mockRepos.put(repoData.repoInfo.getRepoId(), repoData);
@@ -50,55 +41,43 @@ public class MockRepoController implements RepoController {
 
   @Override
   public RepoInfo makeRemoteRepo(
-      String taskId, Boolean usingTestingVersion, Integer validityMinutes, String remote)
-      throws TaskNotFoundException, RepoExpiredException, RepoStorageException,
-          RetiredTaskException, RepoNotFoundException {
+      String taskId, Boolean usingTestingVersion, Integer validityMinutes, String remote) {
     RepoData repoData = new RepoData(taskId, usingTestingVersion, validityMinutes, remote);
     return repoData.repoInfo;
   }
 
   @Override
-  public List<String> listTags(String repoId) throws RepoStorageException, RepoNotFoundException {
+  public List<String> listTags(String repoId) {
     return mockRepos.get(repoId).tags;
   }
 
   @Override
-  public List<String> listFiles(String repoId, String tag)
-      throws RepoStorageException, RepoNotFoundException, RepoTagNotFoundException {
+  public List<String> listFiles(String repoId, String tag) {
     return mockRepos.get(repoId).files;
   }
 
   @Override
-  public Response readFile(String repoId, String tag, String fileName)
-      throws RepoStorageException, RepoFileNotFoundException, RepoNotFoundException,
-          RepoTagNotFoundException {
+  public Response readFile(String repoId, String tag, String fileName) {
     throw new Error("readFile is unimplemented");
   }
 
   @Override
-  public Response updateFile(String repoId, String tag, String fileName, FileData file)
-      throws RepoStorageException, RepoExpiredException, RepoFileNotFoundException,
-          RepoNotFoundException {
+  public Response updateFile(String repoId, String tag, String fileName, FileData file) {
     throw new Error("updateFile is unimplemented");
   }
 
   @Override
-  public Response deleteFile(String repoId, String tag, String fileName)
-      throws RepoStorageException, RepoExpiredException, RepoFileNotFoundException,
-          RepoNotFoundException {
+  public Response deleteFile(String repoId, String tag, String fileName) {
     throw new Error("deleteFile is unimplemented");
   }
 
   @Override
-  public Response reset(String repoId, String tag)
-      throws RepoStorageException, RepoExpiredException, RepoTagNotFoundException,
-          RepoNotFoundException {
+  public Response reset(String repoId, String tag) {
     throw new Error("reset is unimplemented");
   }
 
   @Override
-  public RepoTag tag(String repoId)
-      throws RepoStorageException, RepoExpiredException, RepoNotFoundException {
+  public RepoTag tag(String repoId) {
     String tag = mockRepos.get(repoId).addTag();
     return new RepoTag(tag);
   }
