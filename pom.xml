@@ -3,7 +3,7 @@
     <groupId>uk.ac.cam.cl.dtg.teaching</groupId>
     <artifactId>pottery-backend-interface</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.2</version>
+    <version>1.0.3-SNAPSHOT</version>
     <name>pottery-backend-interface</name>
 
     <properties>
@@ -15,7 +15,7 @@
 
     <scm>
       <developerConnection>scm:git:ssh://git@github.com/ucam-cl-dtg/pottery-backend-interface.git</developerConnection>
-      <tag>pottery-backend-interface-1.0.2</tag>
+      <tag>HEAD</tag>
   </scm>
     
     <dependencies>
