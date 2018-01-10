@@ -121,6 +121,12 @@ public interface TasksController {
       throws TaskNotFoundException, TaskStorageException, RetiredTaskException;
 
   @POST
+  @Path("/{taskId}/unretire")
+  @ApiOperation(value = "Restore a retired task", response = TaskInfo.class)
+  Response unretireTask(@PathParam("taskId") String taskId)
+      throws TaskNotFoundException, TaskStorageException, RetiredTaskException;
+
+  @POST
   @Path("/{taskId}/register")
   @ApiOperation(
     value =
