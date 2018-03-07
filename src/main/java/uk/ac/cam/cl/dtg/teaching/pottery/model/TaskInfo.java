@@ -120,6 +120,9 @@ public class TaskInfo {
           + "task")
   private List<String> startingPointFiles;
 
+  @ApiModelProperty("List of questions to as the candidate about the task")
+  private List<String> questions;
+
   public TaskInfo(String taskId) {
     super();
     this.taskId = taskId;
@@ -144,7 +147,8 @@ public class TaskInfo {
       @JsonProperty("validatorRestrictions") ContainerRestrictions validatorRestrictions,
       @JsonProperty("taskCompilationRestrictions")
           ContainerRestrictions taskCompilationRestrictions,
-      @JsonProperty("startingPointFiles") List<String> startingPointFiles) {
+      @JsonProperty("startingPointFiles") List<String> startingPointFiles,
+      @JsonProperty("questions") List<String> questions) {
     super();
     this.type = type;
     this.name = name;
@@ -161,6 +165,7 @@ public class TaskInfo {
     this.taskCompilationRestrictions =
         ContainerRestrictions.authorRestriction(taskCompilationRestrictions);
     this.startingPointFiles = startingPointFiles;
+    this.questions = questions;
   }
 
   public ContainerRestrictions getCompilationRestrictions() {
@@ -225,5 +230,13 @@ public class TaskInfo {
 
   public void setStartingPointFiles(List<String> startingPointFiles) {
     this.startingPointFiles = startingPointFiles;
+  }
+
+  public List<String> getQuestions() {
+    return questions;
+  }
+
+  public void setQuestions(List<String> questions) {
+    this.questions = questions;
   }
 }
