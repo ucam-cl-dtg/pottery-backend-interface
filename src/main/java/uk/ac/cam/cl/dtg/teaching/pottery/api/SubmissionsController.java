@@ -25,9 +25,11 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
 import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.RepoExpiredException;
 import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.RepoNotFoundException;
 import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.RepoStorageException;
+import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.SubmissionAlreadyScheduledException;
 import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.SubmissionNotFoundException;
 import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.SubmissionStorageException;
 import uk.ac.cam.cl.dtg.teaching.pottery.model.Submission;
@@ -57,4 +59,8 @@ public interface SubmissionsController {
   Submission getSubmission(@PathParam("repoId") String repoId, @PathParam("tag") String tag)
       throws SubmissionNotFoundException, RepoStorageException, SubmissionStorageException,
           RepoNotFoundException;
+
+  Response deleteSubmission(@PathParam("repoId") String repoId, @PathParam("tag") String tag)
+      throws RepoStorageException, RepoNotFoundException, SubmissionStorageException,
+          SubmissionNotFoundException, SubmissionAlreadyScheduledException;
 }

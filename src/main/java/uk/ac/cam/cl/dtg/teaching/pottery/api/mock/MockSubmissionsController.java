@@ -19,6 +19,7 @@
 package uk.ac.cam.cl.dtg.teaching.pottery.api.mock;
 
 import java.util.concurrent.atomic.AtomicInteger;
+import javax.ws.rs.core.Response;
 import uk.ac.cam.cl.dtg.teaching.pottery.api.SubmissionsController;
 import uk.ac.cam.cl.dtg.teaching.pottery.model.Submission;
 
@@ -37,5 +38,10 @@ public class MockSubmissionsController implements SubmissionsController {
         .setStatus(Submission.STATUS_COMPLETE)
         .setInterpretation(String.format("Polling %d", counter.incrementAndGet()))
         .build();
+  }
+
+  @Override
+  public Response deleteSubmission(String repoId, String tag) {
+    throw new Error("Unimplemented");
   }
 }
