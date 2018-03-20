@@ -20,6 +20,7 @@ package uk.ac.cam.cl.dtg.teaching.pottery.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.collect.ImmutableSet;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -294,6 +295,15 @@ public class Submission {
 
       status = STATUS_COMPLETE;
     }
+  }
+
+  public boolean isComplete() {
+    return ImmutableSet.of(
+            STATUS_COMPLETE,
+            STATUS_COMPILATION_FAILED,
+            STATUS_HARNESS_FAILED,
+            STATUS_VALIDATOR_FAILED)
+        .contains(status);
   }
 
   @Override
