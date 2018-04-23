@@ -36,7 +36,7 @@ public class MockSubmissionsController implements SubmissionsController {
   public Submission getSubmission(String repoId, String tag) {
     return Submission.builder(repoId, tag)
         .setStatus(Submission.STATUS_COMPLETE)
-        .setInterpretation(String.format("Polling %d", counter.incrementAndGet()))
+        .setOutput(String.format("Polling %d", counter.incrementAndGet()))
         .build();
   }
 

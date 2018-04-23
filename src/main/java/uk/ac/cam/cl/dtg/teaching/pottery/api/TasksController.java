@@ -21,7 +21,6 @@ package uk.ac.cam.cl.dtg.teaching.pottery.api;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -36,7 +35,6 @@ import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.RetiredTaskException;
 import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.TaskNotFoundException;
 import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.TaskStorageException;
 import uk.ac.cam.cl.dtg.teaching.pottery.model.BuilderInfo;
-import uk.ac.cam.cl.dtg.teaching.pottery.model.Criterion;
 import uk.ac.cam.cl.dtg.teaching.pottery.model.TaskInfo;
 import uk.ac.cam.cl.dtg.teaching.pottery.model.TaskLocation;
 import uk.ac.cam.cl.dtg.teaching.pottery.model.TaskStatus;
@@ -159,14 +157,4 @@ public interface TasksController {
   @Path("/types")
   @ApiOperation(value = "Lists defined task types and their description", position = 1)
   Map<String, String> listTypes();
-
-  @GET
-  @Path("/criteria")
-  @ApiOperation(value = "Lists defined criteria and their description", position = 2)
-  List<Criterion> listCriteria();
-
-  @GET
-  @Path("/languages")
-  @ApiOperation(value = "Lists the available programming languages", position = 3)
-  List<String> listLanguages();
 }
