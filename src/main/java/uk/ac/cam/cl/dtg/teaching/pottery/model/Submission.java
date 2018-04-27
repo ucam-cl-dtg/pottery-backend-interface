@@ -29,20 +29,19 @@ public class Submission {
 
   public static final String STATUS_STEPS_RUNNING = "STEPS_RUNNING";
   public static final String STATUS_STEPS_FAILED = "STEPS_FAILED";
-  public static final String STATUS_STEPS_COMPLETE = "STEPS_COMPLETE";
 
   public static final String STATUS_OUTPUT_RUNNING = "OUTPUT_RUNNING";
   public static final String STATUS_OUTPUT_FAILED = "OUTPUT_FAILED";
-  public static final String STATUS_OUTPUT_COMPLETE = "OUTPUT_COMPLETE";
 
   public static final String STATUS_COMPLETE = "COMPLETE";
 
   private final String repoId;
   private final String tag;
   private final String output;
-  private final Date dateScheduled;
   private final long waitTimeMs;
   private final String status;
+  private final String errorMessage;
+  private final Date dateScheduled;
   private final boolean needsRetry;
 
   @JsonCreator
@@ -50,17 +49,19 @@ public class Submission {
       @JsonProperty("repoId") String repoId,
       @JsonProperty("tag") String tag,
       @JsonProperty("output") String output,
-      @JsonProperty("dateScheduled") Date dateScheduled,
       @JsonProperty("waitTimeMs") long waitTimeMs,
       @JsonProperty("status") String status,
+      @JsonProperty("errorMessage") String errorMessage,
+      @JsonProperty("dateScheduled") Date dateScheduled,
       @JsonProperty("needsRetry") boolean needsRetry) {
     super();
     this.repoId = repoId;
     this.tag = tag;
     this.output = output;
-    this.dateScheduled = dateScheduled;
     this.waitTimeMs = waitTimeMs;
     this.status = status;
+    this.errorMessage = errorMessage;
+    this.dateScheduled = dateScheduled;
     this.needsRetry = needsRetry;
   }
 
@@ -88,6 +89,12 @@ public class Submission {
     return status;
   }
 
+  public String getOutput() { return output; }
+
+  public long getWaitTimeMs() { return waitTimeMs; }
+
+  public String getErrorMessage() { return errorMessage; }
+
   public static class Builder {
 
     private final Date dateScheduled;
@@ -95,6 +102,7 @@ public class Submission {
     private final String tag;
     private String output;
     private String status;
+    private String errorMessage;
     private boolean needsRetry;
     private long waitTimeMs;
 
@@ -126,14 +134,24 @@ public class Submission {
       return this;
     }
 
+    public Builder addErrorMessage(String errorMessage) {
+      if (this.errorMessage == null) {
+        this.errorMessage = errorMessage;
+      } else {
+        this.errorMessage += "\r\n" + errorMessage;
+      }
+      return this;
+    }
+
     public Submission build() {
       return new Submission(
           repoId,
           tag,
           output,
-          dateScheduled,
           waitTimeMs,
           status,
+          errorMessage,
+          dateScheduled,
           needsRetry);
     }
   }
@@ -162,6 +180,9 @@ public class Submission {
         + waitTimeMs
         + ", dateScheduled="
         + dateScheduled
+        + ", errorMessage='"
+        + errorMessage
+        + '\''
         + ", status='"
         + status
         + '\''

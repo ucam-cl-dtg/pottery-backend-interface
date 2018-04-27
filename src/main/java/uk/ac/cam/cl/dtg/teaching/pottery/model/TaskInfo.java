@@ -106,71 +106,6 @@ public class TaskInfo {
   @ApiModelProperty("Internal tests that should be run when the task is registered")
   private Map<String, Map<String, String>> taskTests;
 
-  static class Execution {
-    @ApiModelProperty("Image that this execution should be run in")
-    private String image;
-    @ApiModelProperty("Command-line for this execution")
-    private String program;
-    @ApiModelProperty("Container restrictions on this execution")
-    private ContainerRestrictions restrictions;
-
-    @JsonCreator
-    public Execution(
-        @JsonProperty("image") String image,
-        @JsonProperty("program") String program,
-        @JsonProperty("restrictions") ContainerRestrictions restrictions) {
-      this.image = image;
-      this.program = program;
-      this.restrictions = restrictions;
-    }
-
-    public String getImage() {
-      return image;
-    }
-
-    public String getProgram() {
-      return program;
-    }
-
-    public ContainerRestrictions getRestrictions() {
-      return restrictions;
-    }
-
-    void setDefaultContainerRestriction(ContainerRestrictions defaultRestrictions) {
-      if (restrictions == null) {
-        restrictions = defaultRestrictions;
-      }
-    }
-  }
-
-  static class Step {
-    @ApiModelProperty("Name of this step")
-    String name;
-    @ApiModelProperty("Map from variants to execution to run for this step")
-    Map<String, Execution> execution;
-
-    @JsonCreator
-    public Step(
-        @JsonProperty("name") String name,
-        @JsonProperty("execution") Map<String, Execution> execution) {
-      this.name = name;
-      this.execution = execution;
-    }
-
-    public String getName() {
-      return name;
-    }
-
-    public Map<String, Execution> getExecution() {
-      return execution;
-    }
-
-    void setDefaultContainerRestriction(ContainerRestrictions defaultRestrictions) {
-      this.execution.values().forEach(execution ->
-          execution.setDefaultContainerRestriction(defaultRestrictions));
-    }
-  }
-
   @ApiModelProperty("List of executions needed to be run to compile this task")
   private List<Execution> taskCompilation;
 
@@ -250,15 +185,19 @@ public class TaskInfo {
     return problemStatement;
   }
 
+  public List<String> getQuestions() { return questions; }
+
+  public Set<String> getVariants() { return variants; }
+
+  public Map<String, Map<String, String>> getTaskTests() { return taskTests; }
+
+  public List<Execution> getTaskCompilation() { return taskCompilation; }
+
+  public List<Step> getSteps() { return steps; }
+
+  public Map<String, Execution> getOutput() { return output; }
+
   public void setTaskId(String taskId) {
     this.taskId = taskId;
-  }
-
-  public List<String> getQuestions() {
-    return questions;
-  }
-
-  public void setQuestions(List<String> questions) {
-    this.questions = questions;
   }
 }

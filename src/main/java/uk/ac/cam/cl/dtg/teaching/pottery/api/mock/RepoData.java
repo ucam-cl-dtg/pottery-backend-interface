@@ -33,7 +33,7 @@ class RepoData {
   final List<String> files = new LinkedList<>();
   final AtomicInteger tagCounter = new AtomicInteger(0);
 
-  RepoData(String taskId, boolean usingTestingVersion, Integer validityMinutes, String remote) {
+  RepoData(String taskId, boolean usingTestingVersion, Integer validityMinutes, String variant, String remote) {
     Calendar cal = Calendar.getInstance();
     cal.add(Calendar.MINUTE, validityMinutes);
     this.repoInfo =
@@ -42,6 +42,7 @@ class RepoData {
             taskId,
             usingTestingVersion,
             cal.getTime(),
+            variant,
             remote);
   }
 

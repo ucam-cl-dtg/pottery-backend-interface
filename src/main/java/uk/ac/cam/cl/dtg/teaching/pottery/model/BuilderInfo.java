@@ -88,13 +88,13 @@ public class BuilderInfo {
       return 3;
     }
     if (STATUS_TESTING_SOLUTIONS.equals(status)) {
-      return 5;
+      return 4;
     }
     if (STATUS_SUCCESS.equals(status)) {
-      return 6;
+      return 5;
     }
     if (STATUS_FAILURE.equals(status)) {
-      return 6;
+      return 5;
     }
     return -1;
   }

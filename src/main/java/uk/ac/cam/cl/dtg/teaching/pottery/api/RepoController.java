@@ -31,13 +31,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
-import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.RepoExpiredException;
-import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.RepoFileNotFoundException;
-import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.RepoNotFoundException;
-import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.RepoStorageException;
-import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.RepoTagNotFoundException;
-import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.RetiredTaskException;
-import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.TaskNotFoundException;
+import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.*;
 import uk.ac.cam.cl.dtg.teaching.pottery.model.FileData;
 import uk.ac.cam.cl.dtg.teaching.pottery.model.RepoInfo;
 import uk.ac.cam.cl.dtg.teaching.pottery.model.RepoTag;
@@ -56,9 +50,10 @@ public interface RepoController {
   RepoInfo makeRepo(
       @FormParam("taskId") String taskId,
       @FormParam("usingTestingVersion") Boolean usingTestingVersion,
-      @FormParam("validityMinutes") Integer validityMinutes)
+      @FormParam("validityMinutes") Integer validityMinutes,
+      @FormParam("variant") String variant)
       throws TaskNotFoundException, RepoExpiredException, RepoStorageException,
-          RetiredTaskException, RepoNotFoundException;
+          RetiredTaskException, RepoNotFoundException, TaskMissingVariantException;
 
   @POST
   @Path("/remote")
@@ -71,9 +66,10 @@ public interface RepoController {
       @FormParam("taskId") String taskId,
       @FormParam("usingTestingVersion") Boolean usingTestingVersion,
       @FormParam("validityMinutes") Integer validityMinutes,
+      @FormParam("variant") String variant,
       @FormParam("remote") String remote)
       throws TaskNotFoundException, RepoExpiredException, RepoStorageException,
-          RetiredTaskException, RepoNotFoundException;
+          RetiredTaskException, RepoNotFoundException, TaskMissingVariantException;
 
   @GET
   @Path("/{repoId}")
