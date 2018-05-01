@@ -32,7 +32,6 @@ import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.RepoStorageException;
 import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.SubmissionAlreadyScheduledException;
 import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.SubmissionNotFoundException;
 import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.SubmissionStorageException;
-import uk.ac.cam.cl.dtg.teaching.pottery.model.Submission;
 
 @Produces("application/json")
 @Path("/submissions")
@@ -45,7 +44,7 @@ public interface SubmissionsController {
     notes = "A submission is created from a tag in the code repository used by the candidate.",
     position = 0
   )
-  Submission scheduleTest(@PathParam("repoId") String repoId, @PathParam("tag") String tag)
+  String scheduleTest(@PathParam("repoId") String repoId, @PathParam("tag") String tag)
       throws RepoStorageException, RepoExpiredException, SubmissionStorageException,
           RepoNotFoundException;
 
@@ -56,7 +55,7 @@ public interface SubmissionsController {
     notes = "Use this call to poll for the results of testing.",
     position = 1
   )
-  Submission getSubmission(@PathParam("repoId") String repoId, @PathParam("tag") String tag)
+  String getSubmission(@PathParam("repoId") String repoId, @PathParam("tag") String tag)
       throws SubmissionNotFoundException, RepoStorageException, SubmissionStorageException,
           RepoNotFoundException;
 

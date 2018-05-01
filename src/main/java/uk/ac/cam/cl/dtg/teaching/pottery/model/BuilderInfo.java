@@ -124,16 +124,24 @@ public class BuilderInfo {
     return testCompileResponse;
   }
 
-  public void setTestCompileResponse(String testCompileResponse) {
-    this.testCompileResponse = testCompileResponse;
+  public void addTestCompileResponse(String response) {
+    if (this.testCompileResponse != null) {
+      this.testCompileResponse += "\r\n" + response;
+    } else {
+      this.testCompileResponse = response;
+    }
   }
 
   public String getSolutionTestingResponse() {
     return solutionTestingResponse;
   }
 
-  public void setSolutionTestingResponse(String solutionTestingResponse) {
-    this.solutionTestingResponse = solutionTestingResponse;
+  public void addSolutionTestingResponse(String response) {
+    if (this.solutionTestingResponse != null) {
+      this.solutionTestingResponse += "\r\n" + response;
+    } else {
+      this.solutionTestingResponse = response;
+    }
   }
 
   @Override
@@ -155,4 +163,5 @@ public class BuilderInfo {
         + '\''
         + '}';
   }
+
 }

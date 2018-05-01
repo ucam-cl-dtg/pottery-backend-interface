@@ -57,4 +57,8 @@ public class Execution {
       restrictions = defaultRestrictions;
     }
   }
+
+  public Execution withProgram(String program) {
+    return new Execution(image, program, restrictions);
+  }
 }
