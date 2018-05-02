@@ -89,11 +89,17 @@ public class Submission {
     return status;
   }
 
-  public String getOutput() { return output; }
+  public String getOutput() {
+    return output;
+  }
 
-  public long getWaitTimeMs() { return waitTimeMs; }
+  public long getWaitTimeMs() {
+    return waitTimeMs;
+  }
 
-  public String getErrorMessage() { return errorMessage; }
+  public String getErrorMessage() {
+    return errorMessage;
+  }
 
   public static class Builder {
 

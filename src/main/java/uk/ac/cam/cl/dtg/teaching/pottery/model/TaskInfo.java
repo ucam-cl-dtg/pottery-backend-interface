@@ -185,17 +185,29 @@ public class TaskInfo {
     return problemStatement;
   }
 
-  public List<String> getQuestions() { return questions; }
+  public List<String> getQuestions() {
+    return questions;
+  }
 
-  public Set<String> getVariants() { return variants; }
+  public Set<String> getVariants() {
+    return variants;
+  }
 
-  public Map<String, Map<String, String>> getTaskTests() { return taskTests; }
+  public Map<String, Map<String, String>> getTaskTests() {
+    return taskTests;
+  }
 
-  public List<Execution> getTaskCompilation() { return taskCompilation; }
+  public List<Execution> getTaskCompilation() {
+    return taskCompilation;
+  }
 
-  public List<Step> getSteps() { return steps; }
+  public List<Step> getSteps() {
+    return steps;
+  }
 
-  public Map<String, Execution> getOutput() { return output; }
+  public Map<String, Execution> getOutput() {
+    return output;
+  }
 
   public void setTaskId(String taskId) {
     this.taskId = taskId;

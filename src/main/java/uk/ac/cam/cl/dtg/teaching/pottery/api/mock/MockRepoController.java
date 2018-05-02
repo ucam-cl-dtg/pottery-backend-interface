@@ -32,7 +32,8 @@ public class MockRepoController implements RepoController {
   private Map<String, RepoData> mockRepos = new HashMap<>();
 
   @Override
-  public RepoInfo makeRepo(String taskId, Boolean usingTestingVersion, Integer validityMinutes, String variant) {
+  public RepoInfo makeRepo(String taskId, Boolean usingTestingVersion,
+                           Integer validityMinutes, String variant) {
     RepoData repoData =
         new RepoData(taskId, usingTestingVersion, validityMinutes, variant, RepoInfo.REMOTE_UNSET);
     mockRepos.put(repoData.repoInfo.getRepoId(), repoData);
@@ -40,8 +41,8 @@ public class MockRepoController implements RepoController {
   }
 
   @Override
-  public RepoInfo makeRemoteRepo(
-      String taskId, Boolean usingTestingVersion, Integer validityMinutes, String variant, String remote) {
+  public RepoInfo makeRemoteRepo(String taskId, Boolean usingTestingVersion,
+                                 Integer validityMinutes, String variant, String remote) {
     RepoData repoData = new RepoData(taskId, usingTestingVersion, validityMinutes, variant, remote);
     return repoData.repoInfo;
   }

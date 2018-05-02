@@ -69,7 +69,9 @@ public class RepoInfo {
     return usingTestingVersion;
   }
 
-  public String getVariant() { return variant; }
+  public String getVariant() {
+    return variant;
+  }
 
   public String getRemote() {
     return remote;

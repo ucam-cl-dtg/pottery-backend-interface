@@ -26,18 +26,18 @@ import uk.ac.cam.cl.dtg.teaching.pottery.model.Submission;
 public class MockSubmissionsController implements SubmissionsController {
 
   @Override
-  public Submission scheduleTest(String repoId, String tag) {
-    return Submission.builder(repoId, tag).setStatus(Submission.STATUS_PENDING).build();
+  public String scheduleTest(String repoId, String tag) {
+    return Submission.builder(repoId, tag).setStatus(Submission.STATUS_PENDING).build().getOutput();
   }
 
   private AtomicInteger counter = new AtomicInteger(0);
 
   @Override
-  public Submission getSubmission(String repoId, String tag) {
+  public String getSubmission(String repoId, String tag) {
     return Submission.builder(repoId, tag)
         .setStatus(Submission.STATUS_COMPLETE)
         .setOutput(String.format("Polling %d", counter.incrementAndGet()))
-        .build();
+        .build().getOutput();
   }
 
   @Override
