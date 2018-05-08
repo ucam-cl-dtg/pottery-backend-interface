@@ -22,12 +22,21 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 
+/**
+ * An Execution represents a program that can be run by Pottery under a particular image.
+ *
+ * The program command-line can contain variables delimited with @'s (like @VARIABLE@) which are
+ * replaced by Pottery according to the context the Execution is run in.
+ *
+ * The container that is started has restrictions applied to it as specified; if none are specified,
+ * Pottery can apply default restrictions.
+ */
 public class Execution {
-  @ApiModelProperty("Image that this execution should be run in")
+  @ApiModelProperty("Image that this execution should be run in.")
   private String image;
-  @ApiModelProperty("Command-line for this execution")
+  @ApiModelProperty("Command-line for this execution.")
   private String program;
-  @ApiModelProperty("Container restrictions on this execution")
+  @ApiModelProperty("Container restrictions on this execution.")
   private ContainerRestrictions restrictions;
 
   @JsonCreator

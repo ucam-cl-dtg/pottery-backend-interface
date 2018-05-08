@@ -24,11 +24,24 @@ import com.wordnik.swagger.annotations.ApiModelProperty;
 
 import java.util.Map;
 
+/**
+ * A Step represents a step that Pottery carries out when processing the user's code.
+ *
+ * A Step has a name which is used to identify it's output.
+ *
+ * A Step has a map of variant names to Executions for that variant. If no Execution is provided for
+ * a variant, then the Execution for the "default" variant is run, if it exists. If it does not
+ * exist, no Execution is run for this step.
+ *
+ * For example, a compile Step might only have Executions specified for variants that require
+ * compilation, and a validation Step might only have a default variant so that all variants are
+ * validated with the same code.
+ */
 public class Step {
-  @ApiModelProperty("Name of this step")
-  String name;
-  @ApiModelProperty("Map from variants to execution to run for this step")
-  Map<String, Execution> execution;
+  @ApiModelProperty("Name of this step.")
+  private String name;
+  @ApiModelProperty("Map from variants to execution to run for this step.")
+  private Map<String, Execution> execution;
 
   @JsonCreator
   public Step(
