@@ -27,6 +27,7 @@ import uk.ac.cam.cl.dtg.teaching.pottery.model.RepoInfo;
 class RepoData {
 
   private static AtomicInteger repoIdCounter = new AtomicInteger(0);
+  private static AtomicInteger taskCommitCounter = new AtomicInteger(0);
 
   final RepoInfo repoInfo;
   final List<String> tags = new LinkedList<>();
@@ -42,6 +43,7 @@ class RepoData {
             String.format("Mock%03d", repoIdCounter.incrementAndGet()),
             taskId,
             usingTestingVersion,
+            String.format("012345678901234567890123456789%010d", taskCommitCounter.incrementAndGet()),
             cal.getTime(),
             variant,
             remote);
