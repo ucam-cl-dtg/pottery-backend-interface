@@ -20,8 +20,12 @@ package uk.ac.cam.cl.dtg.teaching.pottery.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableSet;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Submission {
 
@@ -108,7 +112,7 @@ public class Submission {
     private final String tag;
     private String output;
     private String status;
-    private String errorMessage;
+    private List<String> errorMessage = new ArrayList<String>();
     private boolean needsRetry;
     private long waitTimeMs;
 
@@ -141,11 +145,7 @@ public class Submission {
     }
 
     public Builder addErrorMessage(String errorMessage) {
-      if (this.errorMessage == null) {
-        this.errorMessage = errorMessage;
-      } else {
-        this.errorMessage += "\r\n" + errorMessage;
-      }
+      this.errorMessage.add(errorMessage);
       return this;
     }
 
@@ -156,7 +156,7 @@ public class Submission {
           output,
           waitTimeMs,
           status,
-          errorMessage,
+          Joiner.on("\r\n").join(errorMessage),
           dateScheduled,
           needsRetry);
     }

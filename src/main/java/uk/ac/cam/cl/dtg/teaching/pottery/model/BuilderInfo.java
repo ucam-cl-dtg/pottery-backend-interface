@@ -18,8 +18,11 @@
 
 package uk.ac.cam.cl.dtg.teaching.pottery.model;
 
+import java.util.concurrent.ConcurrentLinkedDeque;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.Joiner;
 import uk.ac.cam.cl.dtg.teaching.exceptions.SerializableException;
 
 /**
@@ -61,9 +64,9 @@ public class BuilderInfo {
    */
   private volatile SerializableException exception;
 
-  private volatile String testCompileResponse;
+  private ConcurrentLinkedDeque<String> testCompileResponse = new ConcurrentLinkedDeque<>();
 
-  private volatile String solutionTestingResponse;
+  private ConcurrentLinkedDeque<String> solutionTestingResponse = new ConcurrentLinkedDeque<>();
 
   public BuilderInfo(String sha1) {
     super();
@@ -82,8 +85,8 @@ public class BuilderInfo {
     this.sha1 = sha1;
     this.status = status;
     this.exception = exception;
-    this.testCompileResponse = testCompileResponse;
-    this.solutionTestingResponse = solutionTestingResponse;
+    this.testCompileResponse.add(testCompileResponse);
+    this.solutionTestingResponse.add(solutionTestingResponse);
   }
 
   public static int statusToInt(String status) {
@@ -133,27 +136,19 @@ public class BuilderInfo {
   }
 
   public String getTestCompileResponse() {
-    return testCompileResponse;
+    return Joiner.on("\r\n").join(testCompileResponse);
   }
 
   public void addTestCompileResponse(String response) {
-    if (this.testCompileResponse != null) {
-      this.testCompileResponse += "\r\n" + response;
-    } else {
-      this.testCompileResponse = response;
-    }
+    this.testCompileResponse.add(response);
   }
 
   public String getSolutionTestingResponse() {
-    return solutionTestingResponse;
+    return Joiner.on("\r\n").join(solutionTestingResponse);
   }
 
   public void addSolutionTestingResponse(String response) {
-    if (this.solutionTestingResponse != null) {
-      this.solutionTestingResponse += "\r\n" + response;
-    } else {
-      this.solutionTestingResponse = response;
-    }
+    this.solutionTestingResponse.add(response);
   }
 
   @Override
@@ -168,10 +163,10 @@ public class BuilderInfo {
         + ", exception="
         + exception
         + ", testCompileResponse='"
-        + testCompileResponse
+        + getTestCompileResponse()
         + '\''
         + ", solutionTestingResponse='"
-        + solutionTestingResponse
+        + getSolutionTestingResponse()
         + '\''
         + '}';
   }

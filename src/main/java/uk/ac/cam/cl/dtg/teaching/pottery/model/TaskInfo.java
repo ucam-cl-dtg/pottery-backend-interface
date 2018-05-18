@@ -97,7 +97,7 @@ public class TaskInfo {
       "The problem statement as an HTML fragment. Use /n to delimit new line characters if needed")
   private String problemStatement;
 
-  @ApiModelProperty("List of questions to as the candidate about the task")
+  @ApiModelProperty("List of questions to ask the candidate about the task")
   private List<String> questions;
 
   @ApiModelProperty("Variants supported by this task")
