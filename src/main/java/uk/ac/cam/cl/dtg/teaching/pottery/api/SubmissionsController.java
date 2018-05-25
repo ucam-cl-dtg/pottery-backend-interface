@@ -66,6 +66,7 @@ public interface SubmissionsController {
       value = "Poll the output from a particular submission step",
       position = 2
   )
+  @Produces("text/plain")
   String getSubmission(@PathParam("repoId") String repoId, @PathParam("tag") String tag,
                            @PathParam("step") String step)
       throws SubmissionNotFoundException, RepoStorageException, SubmissionStorageException,
