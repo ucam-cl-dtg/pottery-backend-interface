@@ -43,7 +43,6 @@ class RepoData {
             String.format("Mock%03d", repoIdCounter.incrementAndGet()),
             taskId,
             usingTestingVersion,
-            String.format("012345678901234567890123456789%010d", taskCommitCounter.incrementAndGet()),
             cal.getTime(),
             variant,
             remote);

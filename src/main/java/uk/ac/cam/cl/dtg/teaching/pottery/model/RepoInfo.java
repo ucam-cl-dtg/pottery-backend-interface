@@ -29,7 +29,6 @@ public class RepoInfo {
   private String repoId;
   private String taskId;
   private boolean usingTestingVersion;
-  private String taskCommit;
   private Date expiryDate;
 
   private String variant;
@@ -42,7 +41,6 @@ public class RepoInfo {
       @JsonProperty("repoId") String repoId,
       @JsonProperty("taskId") String taskId,
       @JsonProperty("usingTestingVersion") boolean usingTestingVersion,
-      @JsonProperty("taskCommit") String taskCommit,
       @JsonProperty("expiryDate") Date expiryDate,
       @JsonProperty("variant") String variant,
       @JsonProperty("remote") String remote) {
@@ -50,7 +48,6 @@ public class RepoInfo {
     this.repoId = repoId;
     this.taskId = taskId;
     this.usingTestingVersion = usingTestingVersion;
-    this.taskCommit = taskCommit;
     this.expiryDate = expiryDate;
     this.variant = variant;
     this.remote = remote;
@@ -70,10 +67,6 @@ public class RepoInfo {
 
   public boolean isUsingTestingVersion() {
     return usingTestingVersion;
-  }
-
-  public String getTaskCommit() {
-    return taskCommit;
   }
 
   public String getVariant() {
