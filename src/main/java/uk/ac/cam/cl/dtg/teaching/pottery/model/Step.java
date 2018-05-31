@@ -22,7 +22,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * A Step represents a step that Pottery carries out when processing the user's code.
@@ -59,8 +61,11 @@ public class Step {
     return execution;
   }
 
-  void setDefaultContainerRestriction(ContainerRestrictions defaultRestrictions) {
-    this.execution.values().forEach(execution ->
-        execution.setDefaultContainerRestriction(defaultRestrictions));
+  public Step withDefaultContainerRestriction(ContainerRestrictions restrictions) {
+    return new Step(name, execution.entrySet().stream().collect(Collectors.toMap(
+        e -> e.getKey(),
+        e -> e.getValue()
+            .withDefaultContainerRestriction(restrictions)
+    )));
   }
 }

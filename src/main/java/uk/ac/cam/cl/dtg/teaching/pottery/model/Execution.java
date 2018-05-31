@@ -32,6 +32,12 @@ import com.wordnik.swagger.annotations.ApiModelProperty;
  * Pottery can apply default restrictions.
  */
 public class Execution {
+
+  // This is just a marker value and is not expected to actually be used.
+  private static final ContainerRestrictions DEFAULT_RESTRICTIONS = new ContainerRestrictions(
+      0,0, 0, true
+  );
+
   @ApiModelProperty("Image that this execution should be run in.")
   private String image;
   @ApiModelProperty("Command-line for this execution.")
@@ -46,7 +52,7 @@ public class Execution {
       @JsonProperty("restrictions") ContainerRestrictions restrictions) {
     this.image = image;
     this.program = program;
-    this.restrictions = restrictions;
+    this.restrictions = restrictions != null ? restrictions : DEFAULT_RESTRICTIONS;
   }
 
   public String getImage() {
@@ -61,10 +67,11 @@ public class Execution {
     return restrictions;
   }
 
-  void setDefaultContainerRestriction(ContainerRestrictions defaultRestrictions) {
-    if (restrictions == null) {
-      restrictions = defaultRestrictions;
+  public Execution withDefaultContainerRestriction(ContainerRestrictions defaultRestrictions) {
+    if (restrictions == DEFAULT_RESTRICTIONS) {
+      return new Execution(image, program, defaultRestrictions);
     }
+    return this;
   }
 
   public Execution withProgram(String program) {

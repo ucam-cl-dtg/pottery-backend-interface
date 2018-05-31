@@ -21,9 +21,11 @@ package uk.ac.cam.cl.dtg.teaching.pottery.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class TaskInfo {
 
@@ -146,15 +148,18 @@ public class TaskInfo {
     this.questions = questions;
     this.variants = variants;
     this.taskTests = taskTests;
-    this.taskCompilation = taskCompilation;
-    this.taskCompilation.forEach(execution ->
-        execution.setDefaultContainerRestriction(ContainerRestrictions.AUTHOR_RESTRICTIONS));
-    this.steps = steps;
-    this.steps.forEach(step ->
-        step.setDefaultContainerRestriction(ContainerRestrictions.CANDIDATE_RESTRICTIONS));
-    this.output = output;
-    this.output.values().forEach(execution ->
-        execution.setDefaultContainerRestriction(ContainerRestrictions.AUTHOR_RESTRICTIONS));
+    this.taskCompilation = taskCompilation.stream()
+        .map(e -> e.withDefaultContainerRestriction(ContainerRestrictions.AUTHOR_RESTRICTIONS))
+        .collect(Collectors.toList());
+    this.steps = steps.stream()
+        .map(s -> s.withDefaultContainerRestriction(ContainerRestrictions.CANDIDATE_RESTRICTIONS))
+        .collect(Collectors.toList());
+    this.output = output.entrySet().stream()
+        .collect(Collectors.toMap(
+            e -> e.getKey(),
+            e -> e.getValue()
+                .withDefaultContainerRestriction(ContainerRestrictions.AUTHOR_RESTRICTIONS)
+        ));
   }
 
   public String getTaskId() {
