@@ -149,16 +149,16 @@ public class TaskInfo {
     this.variants = variants;
     this.taskTests = taskTests;
     this.taskCompilation = taskCompilation.stream()
-        .map(e -> e.withDefaultContainerRestriction(ContainerRestrictions.AUTHOR_RESTRICTIONS))
+        .map(e -> e.withDefaultContainerRestriction(ContainerRestrictions.DEFAULT_AUTHOR_RESTRICTIONS))
         .collect(Collectors.toList());
     this.steps = steps.stream()
-        .map(s -> s.withDefaultContainerRestriction(ContainerRestrictions.CANDIDATE_RESTRICTIONS))
+        .map(s -> s.withDefaultContainerRestriction(ContainerRestrictions.DEFAULT_CANDIDATE_RESTRICTIONS))
         .collect(Collectors.toList());
     this.output = output.entrySet().stream()
         .collect(Collectors.toMap(
             e -> e.getKey(),
             e -> e.getValue()
-                .withDefaultContainerRestriction(ContainerRestrictions.AUTHOR_RESTRICTIONS)
+                .withDefaultContainerRestriction(ContainerRestrictions.DEFAULT_AUTHOR_RESTRICTIONS)
         ));
   }
 

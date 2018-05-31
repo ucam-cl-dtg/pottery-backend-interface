@@ -44,9 +44,9 @@ public class ContainerRestrictions {
     this.networkDisabled = networkDisabled;
   }
 
-  static final ContainerRestrictions CANDIDATE_RESTRICTIONS =
+  static final ContainerRestrictions DEFAULT_CANDIDATE_RESTRICTIONS =
       new ContainerRestrictions(60, 1, 200, true);
-  static final ContainerRestrictions AUTHOR_RESTRICTIONS =
+  static final ContainerRestrictions DEFAULT_AUTHOR_RESTRICTIONS =
       new ContainerRestrictions(500, 50, 500, false);
 
   public boolean isNetworkDisabled() {
