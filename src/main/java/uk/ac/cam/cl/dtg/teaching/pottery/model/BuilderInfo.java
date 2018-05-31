@@ -19,10 +19,10 @@
 package uk.ac.cam.cl.dtg.teaching.pottery.model;
 
 import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.base.Joiner;
 import uk.ac.cam.cl.dtg.teaching.exceptions.SerializableException;
 
 /**
@@ -64,9 +64,9 @@ public class BuilderInfo {
    */
   private volatile SerializableException exception;
 
-  private ConcurrentLinkedDeque<String> testCompileResponse = new ConcurrentLinkedDeque<>();
+  private final ConcurrentLinkedDeque<String> testCompileResponse = new ConcurrentLinkedDeque<>();
 
-  private ConcurrentLinkedDeque<String> solutionTestingResponse = new ConcurrentLinkedDeque<>();
+  private final ConcurrentLinkedDeque<String> solutionTestingResponse = new ConcurrentLinkedDeque<>();
 
   public BuilderInfo(String sha1) {
     super();
@@ -136,7 +136,7 @@ public class BuilderInfo {
   }
 
   public String getTestCompileResponse() {
-    return Joiner.on("\r\n").join(testCompileResponse);
+    return testCompileResponse.stream().collect(Collectors.joining("\r\n"));
   }
 
   public void addTestCompileResponse(String response) {
@@ -144,7 +144,7 @@ public class BuilderInfo {
   }
 
   public String getSolutionTestingResponse() {
-    return Joiner.on("\r\n").join(solutionTestingResponse);
+    return solutionTestingResponse.stream().collect(Collectors.joining("\r\n"));
   }
 
   public void addSolutionTestingResponse(String response) {
