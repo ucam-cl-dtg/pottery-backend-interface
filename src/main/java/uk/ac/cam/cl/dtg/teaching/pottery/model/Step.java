@@ -57,7 +57,8 @@ public class Step {
     return name;
   }
 
-  public Map<String, Execution> getExecution() {
+  @JsonProperty("execution")
+  public Map<String, Execution> getExecutionMap() {
     return execution;
   }
 
