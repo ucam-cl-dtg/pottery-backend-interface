@@ -1,6 +1,6 @@
 /*
  * pottery-backend-interface - Backend API for testing programming exercises
- * Copyright © 2015 Andrew Rice (acr31@cam.ac.uk)
+ * Copyright © 2015-2018 BlueOptima Limited, Andrew Rice (acr31@cam.ac.uk)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -32,7 +32,6 @@ import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.RepoStorageException;
 import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.SubmissionAlreadyScheduledException;
 import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.SubmissionNotFoundException;
 import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.SubmissionStorageException;
-import uk.ac.cam.cl.dtg.teaching.pottery.model.Submission;
 
 @Produces("application/json")
 @Path("/submissions")
@@ -42,10 +41,12 @@ public interface SubmissionsController {
   @Path("/{repoId}/{tag}")
   @ApiOperation(
     value = "Schedules a test by creating a submission",
-    notes = "A submission is created from a tag in the code repository used by the candidate.",
+    notes = "A submission is created from a tag in the code repository used by the candidate. "
+      + "This method returns either: a JSON object showing the pending status of this submission;"
+      + " or the result from running the task's output script if the task is finished.",
     position = 0
   )
-  Submission scheduleTest(@PathParam("repoId") String repoId, @PathParam("tag") String tag)
+  String scheduleTest(@PathParam("repoId") String repoId, @PathParam("tag") String tag)
       throws RepoStorageException, RepoExpiredException, SubmissionStorageException,
           RepoNotFoundException;
 
@@ -53,10 +54,12 @@ public interface SubmissionsController {
   @Path("/{repoId}/{tag}")
   @ApiOperation(
     value = "Poll the submission information",
-    notes = "Use this call to poll for the results of testing.",
+    notes = "Use this call to poll for the results of testing. "
+        + "This method returns either: a JSON object showing the pending status of this submission;"
+        + " or the result from running the task's output script if the task is finished.",
     position = 1
   )
-  Submission getSubmission(@PathParam("repoId") String repoId, @PathParam("tag") String tag)
+  String getSubmission(@PathParam("repoId") String repoId, @PathParam("tag") String tag)
       throws SubmissionNotFoundException, RepoStorageException, SubmissionStorageException,
           RepoNotFoundException;
 

@@ -1,6 +1,6 @@
 /*
  * pottery-backend-interface - Backend API for testing programming exercises
- * Copyright © 2015 Andrew Rice (acr31@cam.ac.uk)
+ * Copyright © 2015-2018 BlueOptima Limited, Andrew Rice (acr31@cam.ac.uk)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -21,8 +21,11 @@ package uk.ac.cam.cl.dtg.teaching.pottery.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class TaskInfo {
 
@@ -84,10 +87,7 @@ public class TaskInfo {
   private String name;
 
   @ApiModelProperty("The set of types of result that will come back from testing this task")
-  private Set<Criterion> criteria;
-
-  @ApiModelProperty("The name of the docker image to use when testing this image")
-  private String image;
+  private Set<String> criteria;
 
   @ApiModelProperty("Test difficulty (values to be determined)")
   private String difficulty;
@@ -95,93 +95,71 @@ public class TaskInfo {
   @ApiModelProperty("The recommended time in minutes to allocate to this task")
   private int recommendedTimeMinutes;
 
-  @ApiModelProperty("The programming language being tested (currently only java)")
-  private String language;
-
   @ApiModelProperty(
       "The problem statement as an HTML fragment. Use /n to delimit new line characters if needed")
   private String problemStatement;
 
-  @ApiModelProperty("Container restrictions on the compilation step")
-  private ContainerRestrictions compilationRestrictions;
-
-  @ApiModelProperty("Container restrictions on the test harness")
-  private ContainerRestrictions harnessRestrictions;
-
-  @ApiModelProperty("Container restrictions on the validator")
-  private ContainerRestrictions validatorRestrictions;
-
-  @ApiModelProperty(
-      "Container restrictions on the task compilation step (i.e. compiling the test itself")
-  private ContainerRestrictions taskCompilationRestrictions;
-
-  @ApiModelProperty(
-      "List of filenames (relative to the root of the project) to open as a starting point of the "
-          + "task")
-  private List<String> startingPointFiles;
-
-  @ApiModelProperty("List of questions to as the candidate about the task")
+  @ApiModelProperty("List of questions to ask the candidate about the task")
   private List<String> questions;
+
+  @ApiModelProperty("Variants supported by this task")
+  private Set<String> variants;
+
+  @ApiModelProperty("Internal tests that should be run when the task is registered")
+  private Map<String, Map<String, String>> taskTests;
+
+  @ApiModelProperty("List of executions needed to be run to compile this task")
+  private List<Execution> taskCompilation;
+
+  @ApiModelProperty("List of steps to run this task")
+  private List<Step> steps;
+
+  @ApiModelProperty("Map from variants to execution needed to produce output")
+  private Map<String, Execution> output;
 
   public TaskInfo(String taskId) {
     super();
     this.taskId = taskId;
-    this.compilationRestrictions = ContainerRestrictions.candidateRestriction(null);
-    this.harnessRestrictions = ContainerRestrictions.candidateRestriction(null);
-    this.validatorRestrictions = ContainerRestrictions.candidateRestriction(null);
-    this.taskCompilationRestrictions = ContainerRestrictions.authorRestriction(null);
   }
 
   @JsonCreator
   public TaskInfo(
       @JsonProperty("type") String type,
       @JsonProperty("name") String name,
-      @JsonProperty("criteria") Set<Criterion> criteria,
-      @JsonProperty("image") String image,
+      @JsonProperty("criteria") Set<String> criteria,
       @JsonProperty("difficulty") String difficulty,
       @JsonProperty("recommendedTimeMinutes") int recommendedTimeMinutes,
-      @JsonProperty("language") String language,
       @JsonProperty("problemStatement") String problemStatement,
-      @JsonProperty("compilationRestrictions") ContainerRestrictions compilationRestrictions,
-      @JsonProperty("harnessRestrictions") ContainerRestrictions harnessRestrictions,
-      @JsonProperty("validatorRestrictions") ContainerRestrictions validatorRestrictions,
-      @JsonProperty("taskCompilationRestrictions")
-          ContainerRestrictions taskCompilationRestrictions,
-      @JsonProperty("startingPointFiles") List<String> startingPointFiles,
-      @JsonProperty("questions") List<String> questions) {
+      @JsonProperty("questions") List<String> questions,
+      @JsonProperty("variants") Set<String> variants,
+      @JsonProperty("taskTests") Map<String, Map<String, String>> taskTests,
+      @JsonProperty("taskCompilation") List<Execution> taskCompilation,
+      @JsonProperty("steps") List<Step> steps,
+      @JsonProperty("output") Map<String, Execution> output
+      ) {
     super();
+    this.taskId = taskId;
     this.type = type;
     this.name = name;
     this.criteria = criteria;
-    this.image = image;
     this.difficulty = difficulty;
     this.recommendedTimeMinutes = recommendedTimeMinutes;
-    this.language = language;
     this.problemStatement = problemStatement;
-    this.compilationRestrictions =
-        ContainerRestrictions.candidateRestriction(compilationRestrictions);
-    this.harnessRestrictions = ContainerRestrictions.candidateRestriction(harnessRestrictions);
-    this.validatorRestrictions = ContainerRestrictions.candidateRestriction(validatorRestrictions);
-    this.taskCompilationRestrictions =
-        ContainerRestrictions.authorRestriction(taskCompilationRestrictions);
-    this.startingPointFiles = startingPointFiles;
     this.questions = questions;
-  }
-
-  public ContainerRestrictions getCompilationRestrictions() {
-    return compilationRestrictions;
-  }
-
-  public ContainerRestrictions getHarnessRestrictions() {
-    return harnessRestrictions;
-  }
-
-  public ContainerRestrictions getValidatorRestrictions() {
-    return validatorRestrictions;
-  }
-
-  public ContainerRestrictions getTaskCompilationRestrictions() {
-    return taskCompilationRestrictions;
+    this.variants = variants;
+    this.taskTests = taskTests;
+    this.taskCompilation = taskCompilation.stream()
+        .map(e -> e.withDefaultContainerRestriction(ContainerRestrictions.DEFAULT_AUTHOR_RESTRICTIONS))
+        .collect(Collectors.toList());
+    this.steps = steps.stream()
+        .map(s -> s.withDefaultContainerRestriction(ContainerRestrictions.DEFAULT_CANDIDATE_RESTRICTIONS))
+        .collect(Collectors.toList());
+    this.output = output.entrySet().stream()
+        .collect(Collectors.toMap(
+            e -> e.getKey(),
+            e -> e.getValue()
+                .withDefaultContainerRestriction(ContainerRestrictions.DEFAULT_AUTHOR_RESTRICTIONS)
+        ));
   }
 
   public String getTaskId() {
@@ -196,12 +174,8 @@ public class TaskInfo {
     return name;
   }
 
-  public Set<Criterion> getCriteria() {
+  public Set<String> getCriteria() {
     return criteria;
-  }
-
-  public String getImage() {
-    return image;
   }
 
   public String getDifficulty() {
@@ -212,31 +186,35 @@ public class TaskInfo {
     return recommendedTimeMinutes;
   }
 
-  public String getLanguage() {
-    return language;
-  }
-
   public String getProblemStatement() {
     return problemStatement;
-  }
-
-  public List<String> getStartingPointFiles() {
-    return startingPointFiles;
-  }
-
-  public void setTaskId(String taskId) {
-    this.taskId = taskId;
-  }
-
-  public void setStartingPointFiles(List<String> startingPointFiles) {
-    this.startingPointFiles = startingPointFiles;
   }
 
   public List<String> getQuestions() {
     return questions;
   }
 
-  public void setQuestions(List<String> questions) {
-    this.questions = questions;
+  public Set<String> getVariants() {
+    return variants;
+  }
+
+  public Map<String, Map<String, String>> getTaskTests() {
+    return taskTests;
+  }
+
+  public List<Execution> getTaskCompilation() {
+    return taskCompilation;
+  }
+
+  public List<Step> getSteps() {
+    return steps;
+  }
+
+  public Map<String, Execution> getOutput() {
+    return output;
+  }
+
+  public void setTaskId(String taskId) {
+    this.taskId = taskId;
   }
 }

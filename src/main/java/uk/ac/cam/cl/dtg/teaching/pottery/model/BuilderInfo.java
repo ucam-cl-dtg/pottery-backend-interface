@@ -1,6 +1,6 @@
 /*
  * pottery-backend-interface - Backend API for testing programming exercises
- * Copyright © 2015 Andrew Rice (acr31@cam.ac.uk)
+ * Copyright © 2015-2018 BlueOptima Limited, Andrew Rice (acr31@cam.ac.uk)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -18,11 +18,12 @@
 
 package uk.ac.cam.cl.dtg.teaching.pottery.model;
 
+import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.stream.Collectors;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import uk.ac.cam.cl.dtg.teaching.exceptions.SerializableException;
-import uk.ac.cam.cl.dtg.teaching.programmingtest.containerinterface.HarnessResponse;
-import uk.ac.cam.cl.dtg.teaching.programmingtest.containerinterface.ValidatorResponse;
 
 /**
  * DTO for tracking information about the progress of creating a TaskCopy.
@@ -34,9 +35,20 @@ public class BuilderInfo {
   public static final String STATUS_NOT_STARTED = "NOT_STARTED";
   public static final String STATUS_SCHEDULED = "SCHEDULED";
   public static final String STATUS_COPYING_FILES = "COPYING_FILES";
-  public static final String STATUS_COMPILING_TEST = "COMPILING_TEST";
-  public static final String STATUS_COMPILING_SOLUTION = "COMPILING_SOLUTION";
-  public static final String STATUS_TESTING_SOLUTION = "TESTING_SOLUTION";
+
+  /** The compile section of task.json is executing.
+   *
+   * Typically, this would compile the tests and do any other preparation work required to test
+   * the built-in solutions or user-submitted code.
+   */
+  public static final String STATUS_COMPILING_TESTS = "COMPILING_TESTS";
+
+  /** The solutions in task.json are being tested.
+   *
+   * Typically, this would compile and run the solutions, checking each one succeeds or fails as
+   * expected.
+   */
+  public static final String STATUS_TESTING_SOLUTIONS = "TESTING_SOLUTIONS";
   public static final String STATUS_SUCCESS = "SUCCESS";
   public static final String STATUS_FAILURE = "FAILURE";
 
@@ -52,13 +64,9 @@ public class BuilderInfo {
    */
   private volatile SerializableException exception;
 
-  private volatile String testCompileResponse;
+  private final ConcurrentLinkedDeque<String> testCompileResponse = new ConcurrentLinkedDeque<>();
 
-  private volatile String solutionCompileResponse;
-
-  private volatile HarnessResponse harnessResponse;
-
-  private volatile ValidatorResponse validatorResponse;
+  private final ConcurrentLinkedDeque<String> solutionTestingResponse = new ConcurrentLinkedDeque<>();
 
   public BuilderInfo(String sha1) {
     super();
@@ -73,16 +81,12 @@ public class BuilderInfo {
       @JsonProperty("status") String status,
       @JsonProperty("exception") SerializableException exception,
       @JsonProperty("testCompileResponse") String testCompileResponse,
-      @JsonProperty("solutionCompileResponse") String solutionCompileResponse,
-      @JsonProperty("harnessResponse") HarnessResponse harnessResponse,
-      @JsonProperty("validatorResponse") ValidatorResponse validatorResponse) {
+      @JsonProperty("solutionCompileResponse") String solutionTestingResponse) {
     this.sha1 = sha1;
     this.status = status;
     this.exception = exception;
-    this.testCompileResponse = testCompileResponse;
-    this.solutionCompileResponse = solutionCompileResponse;
-    this.harnessResponse = harnessResponse;
-    this.validatorResponse = validatorResponse;
+    this.testCompileResponse.add(testCompileResponse);
+    this.solutionTestingResponse.add(solutionTestingResponse);
   }
 
   public static int statusToInt(String status) {
@@ -95,20 +99,17 @@ public class BuilderInfo {
     if (STATUS_COPYING_FILES.equals(status)) {
       return 2;
     }
-    if (STATUS_COMPILING_TEST.equals(status)) {
+    if (STATUS_COMPILING_TESTS.equals(status)) {
       return 3;
     }
-    if (STATUS_COMPILING_SOLUTION.equals(status)) {
+    if (STATUS_TESTING_SOLUTIONS.equals(status)) {
       return 4;
     }
-    if (STATUS_TESTING_SOLUTION.equals(status)) {
+    if (STATUS_SUCCESS.equals(status)) {
       return 5;
     }
-    if (STATUS_SUCCESS.equals(status)) {
-      return 6;
-    }
     if (STATUS_FAILURE.equals(status)) {
-      return 6;
+      return 5;
     }
     return -1;
   }
@@ -135,35 +136,19 @@ public class BuilderInfo {
   }
 
   public String getTestCompileResponse() {
-    return testCompileResponse;
+    return testCompileResponse.stream().collect(Collectors.joining("\r\n"));
   }
 
-  public void setTestCompileResponse(String testCompileResponse) {
-    this.testCompileResponse = testCompileResponse;
+  public void addTestCompileResponse(String response) {
+    this.testCompileResponse.add(response);
   }
 
-  public String getSolutionCompileResponse() {
-    return solutionCompileResponse;
+  public String getSolutionTestingResponse() {
+    return solutionTestingResponse.stream().collect(Collectors.joining("\r\n"));
   }
 
-  public void setSolutionCompileResponse(String solutionCompileResponse) {
-    this.solutionCompileResponse = solutionCompileResponse;
-  }
-
-  public HarnessResponse getHarnessResponse() {
-    return harnessResponse;
-  }
-
-  public void setHarnessResponse(HarnessResponse harnessResponse) {
-    this.harnessResponse = harnessResponse;
-  }
-
-  public ValidatorResponse getValidatorResponse() {
-    return validatorResponse;
-  }
-
-  public void setValidatorResponse(ValidatorResponse validatorResponse) {
-    this.validatorResponse = validatorResponse;
+  public void addSolutionTestingResponse(String response) {
+    this.solutionTestingResponse.add(response);
   }
 
   @Override
@@ -178,15 +163,12 @@ public class BuilderInfo {
         + ", exception="
         + exception
         + ", testCompileResponse='"
-        + testCompileResponse
+        + getTestCompileResponse()
         + '\''
-        + ", solutionCompileResponse='"
-        + solutionCompileResponse
+        + ", solutionTestingResponse='"
+        + getSolutionTestingResponse()
         + '\''
-        + ", harnessResponse="
-        + harnessResponse
-        + ", validatorResponse="
-        + validatorResponse
         + '}';
   }
+
 }

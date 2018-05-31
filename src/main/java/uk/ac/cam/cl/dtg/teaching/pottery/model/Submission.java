@@ -1,6 +1,6 @@
 /*
  * pottery-backend-interface - Backend API for testing programming exercises
- * Copyright © 2015 Andrew Rice (acr31@cam.ac.uk)
+ * Copyright © 2015-2018 BlueOptima Limited, Andrew Rice (acr31@cam.ac.uk)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -21,78 +21,51 @@ package uk.ac.cam.cl.dtg.teaching.pottery.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableSet;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
-import uk.ac.cam.cl.dtg.teaching.programmingtest.containerinterface.HarnessPart;
-import uk.ac.cam.cl.dtg.teaching.programmingtest.containerinterface.HarnessResponse;
-import uk.ac.cam.cl.dtg.teaching.programmingtest.containerinterface.Interpretation;
-import uk.ac.cam.cl.dtg.teaching.programmingtest.containerinterface.ValidatorResponse;
 
 public class Submission {
 
   public static final String STATUS_PENDING = "PENDING";
 
-  public static final String STATUS_COMPILATION_RUNNING = "COMPILATION_RUNNING";
-  public static final String STATUS_COMPILATION_FAILED = "COMPILATION_FAILED";
-  public static final String STATUS_COMPILATION_COMPLETE = "COMPILATION_COMPLETE";
+  public static final String STATUS_STEPS_RUNNING = "STEPS_RUNNING";
+  public static final String STATUS_STEPS_FAILED = "STEPS_FAILED";
 
-  public static final String STATUS_HARNESS_RUNNING = "HARNESS_RUNNING";
-  public static final String STATUS_HARNESS_FAILED = "HARNESS_FAILED";
-  public static final String STATUS_HARNESS_COMPLETE = "HARNESS_COMPLETE";
-
-  public static final String STATUS_VALIDATOR_RUNNING = "VALIDATOR_RUNNING";
-  public static final String STATUS_VALIDATOR_FAILED = "VALIDATOR_FAILED";
-  public static final String STATUS_VALIDATOR_COMPLETE = "VALIDATOR_COMPLETE";
+  public static final String STATUS_OUTPUT_RUNNING = "OUTPUT_RUNNING";
+  public static final String STATUS_OUTPUT_FAILED = "OUTPUT_FAILED";
 
   public static final String STATUS_COMPLETE = "COMPLETE";
-  public static final String INTERPRETATION_BAD = Interpretation.INTERPRETED_FAILED;
-  public static final String INTERPRETATION_ACCEPTABLE = Interpretation.INTERPRETED_ACCEPTABLE;
-  public static final String INTERPRETATION_EXCELLENT = Interpretation.INTERPRETED_PASSED;
+
   private final String repoId;
   private final String tag;
-  private String compilationOutput;
-  private long compilationTimeMs;
-  private long harnessTimeMs;
-  private long validatorTimeMs;
-  private long waitTimeMs;
-  private Date dateScheduled;
-  private List<TestStep> testSteps;
-  private String errorMessage;
-  private String status;
-  private boolean needsRetry;
-  private String interpretation;
+  private final String output;
+  private final long waitTimeMs;
+  private final String status;
+  private final String errorMessage;
+  private final Date dateScheduled;
+  private final boolean needsRetry;
 
   @JsonCreator
   public Submission(
       @JsonProperty("repoId") String repoId,
       @JsonProperty("tag") String tag,
-      @JsonProperty("compilationOutput") String compilationOutput,
-      @JsonProperty("compilationTimeMs") long compilationTimeMs,
-      @JsonProperty("harnessTimeMs") long harnessTimeMs,
-      @JsonProperty("validatorTimeMs") long validatorTimeMs,
+      @JsonProperty("output") String output,
       @JsonProperty("waitTimeMs") long waitTimeMs,
-      @JsonProperty("testSteps") List<TestStep> testSteps,
-      @JsonProperty("errorMessage") String errorMessage,
       @JsonProperty("status") String status,
+      @JsonProperty("errorMessage") String errorMessage,
       @JsonProperty("dateScheduled") Date dateScheduled,
-      @JsonProperty("interpretation") String interpretation,
       @JsonProperty("needsRetry") boolean needsRetry) {
     super();
     this.repoId = repoId;
     this.tag = tag;
-    this.compilationOutput = compilationOutput;
-    this.compilationTimeMs = compilationTimeMs;
-    this.harnessTimeMs = harnessTimeMs;
-    this.validatorTimeMs = validatorTimeMs;
+    this.output = output;
     this.waitTimeMs = waitTimeMs;
-    this.testSteps = testSteps;
-    this.errorMessage = errorMessage;
     this.status = status;
+    this.errorMessage = errorMessage;
     this.dateScheduled = dateScheduled;
-    this.interpretation = interpretation;
     this.needsRetry = needsRetry;
   }
 
@@ -102,10 +75,6 @@ public class Submission {
 
   public boolean isNeedsRetry() {
     return needsRetry;
-  }
-
-  public String getInterpretation() {
-    return interpretation;
   }
 
   public Date getDateScheduled() {
@@ -120,36 +89,20 @@ public class Submission {
     return tag;
   }
 
-  public String getCompilationOutput() {
-    return compilationOutput;
+  public String getStatus() {
+    return status;
   }
 
-  public long getCompilationTimeMs() {
-    return compilationTimeMs;
-  }
-
-  public long getHarnessTimeMs() {
-    return harnessTimeMs;
-  }
-
-  public long getValidatorTimeMs() {
-    return validatorTimeMs;
+  public String getOutput() {
+    return output;
   }
 
   public long getWaitTimeMs() {
     return waitTimeMs;
   }
 
-  public List<TestStep> getTestSteps() {
-    return testSteps;
-  }
-
   public String getErrorMessage() {
     return errorMessage;
-  }
-
-  public String getStatus() {
-    return status;
   }
 
   public static class Builder {
@@ -157,17 +110,11 @@ public class Submission {
     private final Date dateScheduled;
     private final String repoId;
     private final String tag;
-    private String compilationOutput;
-    private long compilationTimeMs = -1;
-    private long harnessTimeMs = -1;
-    private long validatorTimeMs = -1;
-    private long waitTimeMs;
-    private List<HarnessPart> harnessParts;
-    private List<Interpretation> validatorInterpretations;
-    private String errorMessage;
+    private String output;
     private String status;
-    private String interpretation;
+    private List<String> errorMessage = new ArrayList<String>();
     private boolean needsRetry;
+    private long waitTimeMs;
 
     private Builder(String repoId, String tag) {
       this.repoId = repoId;
@@ -186,123 +133,40 @@ public class Submission {
       return this;
     }
 
-    public Builder addErrorMessage(String m) {
-      if (m != null) {
-        if (this.errorMessage == null) {
-          this.errorMessage = m;
-        } else {
-          this.errorMessage += " " + m;
-        }
-      }
-      return this;
-    }
-
-    public Builder setCompilationResponse(
-        String compilationOutput, boolean success, long executionTimeMs) {
-      this.status = success ? STATUS_COMPILATION_COMPLETE : STATUS_COMPILATION_FAILED;
-      this.compilationOutput = compilationOutput;
-      this.compilationTimeMs = executionTimeMs;
-      return this;
-    }
-
-    /**
-     * Update the builder with harness response. Note that this only takes a shallow copy of its
-     * arguments
-     */
-    public Builder setHarnessResponse(HarnessResponse h, long executionTimeMs) {
-      this.status = h.isCompleted() ? STATUS_HARNESS_COMPLETE : STATUS_HARNESS_FAILED;
-      this.harnessParts = h.getTestParts();
-      this.harnessTimeMs = executionTimeMs;
-      return this;
-    }
-
-    public Builder setValidatorResponse(ValidatorResponse v, long executionTimeMs) {
-      this.status = v.isCompleted() ? STATUS_VALIDATOR_COMPLETE : STATUS_VALIDATOR_FAILED;
-      this.validatorInterpretations = v.getInterpretations();
-      this.validatorTimeMs = executionTimeMs;
-      return this;
-    }
-
     public Builder setStarted() {
       this.waitTimeMs = System.currentTimeMillis() - dateScheduled.getTime();
-      this.errorMessage = null;
-      this.compilationOutput = null;
-      this.validatorInterpretations = null;
-      this.harnessParts = null;
-      this.compilationTimeMs = -1;
-      this.validatorTimeMs = -1;
-      this.harnessTimeMs = -1;
-      this.interpretation = null;
+      this.output = null;
+      return this;
+    }
+
+    public Builder setOutput(String output) {
+      this.output = output;
+      return this;
+    }
+
+    public Builder addErrorMessage(String errorMessage) {
+      this.errorMessage.add(errorMessage);
       return this;
     }
 
     public Submission build() {
-      Map<String, Interpretation> i =
-          validatorInterpretations == null
-              ? null
-              : validatorInterpretations
-                  .stream()
-                  .collect(Collectors.toMap(Interpretation::getId, Function.identity()));
-      List<TestStep> testSteps =
-          harnessParts == null
-              ? null
-              : harnessParts.stream().map(p -> new TestStep(p, i)).collect(Collectors.toList());
-
       return new Submission(
           repoId,
           tag,
-          compilationOutput,
-          compilationTimeMs,
-          harnessTimeMs,
-          validatorTimeMs,
+          output,
           waitTimeMs,
-          testSteps,
-          errorMessage,
           status,
+          errorMessage.stream().collect(Collectors.joining("\r\n")),
           dateScheduled,
-          interpretation,
           needsRetry);
-    }
-
-    public Builder setInterpretation(String interpretation) {
-      this.interpretation = interpretation;
-      return this;
-    }
-
-    public void setComplete() {
-
-      if (errorMessage != null && !errorMessage.trim().equals("")) {
-        interpretation = INTERPRETATION_BAD;
-      }
-
-      if (STATUS_PENDING.equals(status) || STATUS_COMPILATION_RUNNING.equals(status)) {
-        status = STATUS_COMPILATION_FAILED;
-        interpretation = INTERPRETATION_BAD;
-        return;
-      }
-
-      if (STATUS_COMPILATION_COMPLETE.equals(status) || STATUS_HARNESS_RUNNING.equals(status)) {
-        status = STATUS_HARNESS_FAILED;
-        interpretation = INTERPRETATION_BAD;
-        return;
-      }
-
-      if (STATUS_HARNESS_COMPLETE.equals(status) || STATUS_VALIDATOR_RUNNING.equals(status)) {
-        status = STATUS_VALIDATOR_FAILED;
-        interpretation = INTERPRETATION_BAD;
-        return;
-      }
-
-      status = STATUS_COMPLETE;
     }
   }
 
   public boolean isComplete() {
     return ImmutableSet.of(
             STATUS_COMPLETE,
-            STATUS_COMPILATION_FAILED,
-            STATUS_HARNESS_FAILED,
-            STATUS_VALIDATOR_FAILED)
+            STATUS_STEPS_FAILED,
+            STATUS_OUTPUT_FAILED)
         .contains(status);
   }
 
@@ -315,21 +179,13 @@ public class Submission {
         + ", tag='"
         + tag
         + '\''
-        + ", compilationOutput='"
-        + compilationOutput
+        + ", output='"
+        + output
         + '\''
-        + ", compilationTimeMs="
-        + compilationTimeMs
-        + ", harnessTimeMs="
-        + harnessTimeMs
-        + ", validatorTimeMs="
-        + validatorTimeMs
         + ", waitTimeMs="
         + waitTimeMs
         + ", dateScheduled="
         + dateScheduled
-        + ", testSteps="
-        + testSteps
         + ", errorMessage='"
         + errorMessage
         + '\''
@@ -338,8 +194,6 @@ public class Submission {
         + '\''
         + ", needsRetry="
         + needsRetry
-        + ", interpretation='"
-        + interpretation
         + '\''
         + '}';
   }

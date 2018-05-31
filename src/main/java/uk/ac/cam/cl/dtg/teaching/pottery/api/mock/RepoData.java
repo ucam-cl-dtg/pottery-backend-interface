@@ -1,6 +1,6 @@
 /*
  * pottery-backend-interface - Backend API for testing programming exercises
- * Copyright © 2015 Andrew Rice (acr31@cam.ac.uk)
+ * Copyright © 2015-2018 BlueOptima Limited, Andrew Rice (acr31@cam.ac.uk)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -27,13 +27,15 @@ import uk.ac.cam.cl.dtg.teaching.pottery.model.RepoInfo;
 class RepoData {
 
   private static AtomicInteger repoIdCounter = new AtomicInteger(0);
+  private static AtomicInteger taskCommitCounter = new AtomicInteger(0);
 
   final RepoInfo repoInfo;
   final List<String> tags = new LinkedList<>();
   final List<String> files = new LinkedList<>();
   final AtomicInteger tagCounter = new AtomicInteger(0);
 
-  RepoData(String taskId, boolean usingTestingVersion, Integer validityMinutes, String remote) {
+  RepoData(String taskId, boolean usingTestingVersion, Integer validityMinutes, String variant,
+           String remote) {
     Calendar cal = Calendar.getInstance();
     cal.add(Calendar.MINUTE, validityMinutes);
     this.repoInfo =
@@ -42,6 +44,7 @@ class RepoData {
             taskId,
             usingTestingVersion,
             cal.getTime(),
+            variant,
             remote);
   }
 

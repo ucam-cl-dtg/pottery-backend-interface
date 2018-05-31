@@ -1,6 +1,6 @@
 /*
  * pottery-backend-interface - Backend API for testing programming exercises
- * Copyright © 2015 Andrew Rice (acr31@cam.ac.uk)
+ * Copyright © 2015-2018 BlueOptima Limited, Andrew Rice (acr31@cam.ac.uk)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -44,21 +44,10 @@ public class ContainerRestrictions {
     this.networkDisabled = networkDisabled;
   }
 
-  /** Restrictions to impose on a candidate. */
-  public static ContainerRestrictions candidateRestriction(ContainerRestrictions v) {
-    if (v != null) {
-      return v;
-    }
-    return new ContainerRestrictions(60, 1, 200, true);
-  }
-
-  /** Restrictions for an author of a test: to compile the task itself. */
-  public static ContainerRestrictions authorRestriction(ContainerRestrictions v) {
-    if (v != null) {
-      return v;
-    }
-    return new ContainerRestrictions(500, 50, 500, false);
-  }
+  static final ContainerRestrictions DEFAULT_CANDIDATE_RESTRICTIONS =
+      new ContainerRestrictions(60, 1, 200, true);
+  static final ContainerRestrictions DEFAULT_AUTHOR_RESTRICTIONS =
+      new ContainerRestrictions(500, 50, 500, false);
 
   public boolean isNetworkDisabled() {
     return networkDisabled;

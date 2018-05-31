@@ -1,6 +1,6 @@
 /*
  * pottery-backend-interface - Backend API for testing programming exercises
- * Copyright © 2015 Andrew Rice (acr31@cam.ac.uk)
+ * Copyright © 2015-2018 BlueOptima Limited, Andrew Rice (acr31@cam.ac.uk)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -26,18 +26,18 @@ import uk.ac.cam.cl.dtg.teaching.pottery.model.Submission;
 public class MockSubmissionsController implements SubmissionsController {
 
   @Override
-  public Submission scheduleTest(String repoId, String tag) {
-    return Submission.builder(repoId, tag).setStatus(Submission.STATUS_PENDING).build();
+  public String scheduleTest(String repoId, String tag) {
+    return Submission.builder(repoId, tag).setStatus(Submission.STATUS_PENDING).build().getOutput();
   }
 
   private AtomicInteger counter = new AtomicInteger(0);
 
   @Override
-  public Submission getSubmission(String repoId, String tag) {
+  public String getSubmission(String repoId, String tag) {
     return Submission.builder(repoId, tag)
         .setStatus(Submission.STATUS_COMPLETE)
-        .setInterpretation(String.format("Polling %d", counter.incrementAndGet()))
-        .build();
+        .setOutput(String.format("Polling %d", counter.incrementAndGet()))
+        .build().getOutput();
   }
 
   @Override

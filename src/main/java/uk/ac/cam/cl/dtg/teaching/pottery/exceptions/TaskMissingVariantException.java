@@ -18,26 +18,30 @@
 
 package uk.ac.cam.cl.dtg.teaching.pottery.exceptions;
 
-public class TaskRepoException extends Exception {
+import uk.ac.cam.cl.dtg.teaching.exceptions.HttpStatusCode404;
+
+public class TaskMissingVariantException extends Exception implements HttpStatusCode404 {
 
   private static final long serialVersionUID = 1L;
 
-  public TaskRepoException() {}
-
-  public TaskRepoException(String message) {
-    super(message);
+  public TaskMissingVariantException() {
+    super();
   }
 
-  public TaskRepoException(Throwable cause) {
-    super(cause);
+  public TaskMissingVariantException(
+      String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    super(message, cause, enableSuppression, writableStackTrace);
   }
 
-  public TaskRepoException(String message, Throwable cause) {
+  public TaskMissingVariantException(String message, Throwable cause) {
     super(message, cause);
   }
 
-  public TaskRepoException(
-      String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-    super(message, cause, enableSuppression, writableStackTrace);
+  public TaskMissingVariantException(String message) {
+    super(message);
+  }
+
+  public TaskMissingVariantException(Throwable cause) {
+    super(cause);
   }
 }

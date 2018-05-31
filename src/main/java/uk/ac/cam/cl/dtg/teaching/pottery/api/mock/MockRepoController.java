@@ -1,6 +1,6 @@
 /*
  * pottery-backend-interface - Backend API for testing programming exercises
- * Copyright © 2015 Andrew Rice (acr31@cam.ac.uk)
+ * Copyright © 2015-2018 BlueOptima Limited, Andrew Rice (acr31@cam.ac.uk)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -32,17 +32,18 @@ public class MockRepoController implements RepoController {
   private Map<String, RepoData> mockRepos = new HashMap<>();
 
   @Override
-  public RepoInfo makeRepo(String taskId, Boolean usingTestingVersion, Integer validityMinutes) {
+  public RepoInfo makeRepo(String taskId, Boolean usingTestingVersion,
+                           Integer validityMinutes, String variant) {
     RepoData repoData =
-        new RepoData(taskId, usingTestingVersion, validityMinutes, RepoInfo.REMOTE_UNSET);
+        new RepoData(taskId, usingTestingVersion, validityMinutes, variant, RepoInfo.REMOTE_UNSET);
     mockRepos.put(repoData.repoInfo.getRepoId(), repoData);
     return repoData.repoInfo;
   }
 
   @Override
-  public RepoInfo makeRemoteRepo(
-      String taskId, Boolean usingTestingVersion, Integer validityMinutes, String remote) {
-    RepoData repoData = new RepoData(taskId, usingTestingVersion, validityMinutes, remote);
+  public RepoInfo makeRemoteRepo(String taskId, Boolean usingTestingVersion,
+                                 Integer validityMinutes, String variant, String remote) {
+    RepoData repoData = new RepoData(taskId, usingTestingVersion, validityMinutes, variant, remote);
     return repoData.repoInfo;
   }
 

@@ -1,6 +1,6 @@
 /*
  * pottery-backend-interface - Backend API for testing programming exercises
- * Copyright © 2015 Andrew Rice (acr31@cam.ac.uk)
+ * Copyright © 2015-2018 BlueOptima Limited, Andrew Rice (acr31@cam.ac.uk)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -31,6 +31,8 @@ public class RepoInfo {
   private boolean usingTestingVersion;
   private Date expiryDate;
 
+  private String variant;
+
   /** If this value is set then indicates that this repo is hosted remotely. */
   private String remote;
 
@@ -40,12 +42,14 @@ public class RepoInfo {
       @JsonProperty("taskId") String taskId,
       @JsonProperty("usingTestingVersion") boolean usingTestingVersion,
       @JsonProperty("expiryDate") Date expiryDate,
+      @JsonProperty("variant") String variant,
       @JsonProperty("remote") String remote) {
     super();
     this.repoId = repoId;
     this.taskId = taskId;
     this.usingTestingVersion = usingTestingVersion;
     this.expiryDate = expiryDate;
+    this.variant = variant;
     this.remote = remote;
   }
 
@@ -63,6 +67,10 @@ public class RepoInfo {
 
   public boolean isUsingTestingVersion() {
     return usingTestingVersion;
+  }
+
+  public String getVariant() {
+    return variant;
   }
 
   public String getRemote() {
