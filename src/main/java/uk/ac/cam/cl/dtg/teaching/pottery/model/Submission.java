@@ -20,12 +20,12 @@ package uk.ac.cam.cl.dtg.teaching.pottery.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableSet;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Submission {
 
@@ -156,7 +156,7 @@ public class Submission {
           output,
           waitTimeMs,
           status,
-          Joiner.on("\r\n").join(errorMessage),
+          errorMessage.stream().collect(Collectors.joining("\r\n")),
           dateScheduled,
           needsRetry);
     }
