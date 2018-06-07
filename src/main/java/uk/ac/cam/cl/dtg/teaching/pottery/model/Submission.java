@@ -40,6 +40,7 @@ public class Submission {
 
   private final String repoId;
   private final String tag;
+  private final String action;
   private final String status;
   private final String errorMessage;
   private final Date dateScheduled;
@@ -50,6 +51,7 @@ public class Submission {
   public Submission(
       @JsonProperty("repoId") String repoId,
       @JsonProperty("tag") String tag,
+      @JsonProperty("action") String action,
       @JsonProperty("status") String status,
       @JsonProperty("steps") List<StepResult> steps,
       @JsonProperty("errorMessage") String errorMessage,
@@ -58,6 +60,7 @@ public class Submission {
     super();
     this.repoId = repoId;
     this.tag = tag;
+    this.action = action;
     this.status = status;
     this.steps = steps;
     this.errorMessage = errorMessage;
@@ -65,8 +68,8 @@ public class Submission {
     this.needsRetry = needsRetry;
   }
 
-  public static Builder builder(String repoId, String tag) {
-    return new Builder(repoId, tag);
+  public static Builder builder(String repoId, String tag, String action) {
+    return new Builder(repoId, tag, action);
   }
 
   public boolean isNeedsRetry() {
@@ -83,6 +86,10 @@ public class Submission {
 
   public String getTag() {
     return tag;
+  }
+
+  public String getAction() {
+    return action;
   }
 
   public String getStatus() {
@@ -102,14 +109,16 @@ public class Submission {
     private final Date dateScheduled;
     private final String repoId;
     private final String tag;
+    private final String action;
     private String status;
     private final ArrayDeque<StepResult> steps = new ArrayDeque<>();
     private List<String> errorMessage = new ArrayList<>();
     private boolean needsRetry;
 
-    private Builder(String repoId, String tag) {
+    private Builder(String repoId, String tag, String action) {
       this.repoId = repoId;
       this.tag = tag;
+      this.action = action;
       this.status = STATUS_PENDING;
       this.dateScheduled = new Date();
     }
@@ -169,6 +178,7 @@ public class Submission {
       return new Submission(
           repoId,
           tag,
+          action,
           status,
           steps.stream().collect(Collectors.toList()),
           errorMessage.stream().collect(Collectors.joining("\r\n")),
@@ -196,6 +206,9 @@ public class Submission {
         + '\''
         + ", tag='"
         + tag
+        + '\''
+        + ", action='"
+        + action
         + '\''
         + ", steps='"
         + steps
