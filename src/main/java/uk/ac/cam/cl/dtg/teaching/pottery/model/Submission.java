@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableSet;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -102,7 +103,7 @@ public class Submission {
     private final String repoId;
     private final String tag;
     private String status;
-    private final List<StepResult> steps = new ArrayList<>();
+    private final ArrayDeque<StepResult> steps = new ArrayDeque<>();
     private List<String> errorMessage = new ArrayList<>();
     private boolean needsRetry;
 
@@ -123,12 +124,11 @@ public class Submission {
       return this;
     }
 
-
     public String currentStepName() {
-      if (steps.size() == 0) {
+      if (steps.isEmpty()) {
         return null;
       }
-      StepResult currentStep = steps.get(steps.size() - 1);
+      StepResult currentStep = steps.getLast();
       if (isComplete(currentStep.getStatus())) {
         return null;
       }
@@ -150,13 +150,13 @@ public class Submission {
     }
 
     public Builder completeStep(String name, String status, long msec, @Nullable String output) {
-      if (this.currentStepName() != name) {
+      if (!this.currentStepName().equals(name)) {
         throw new IllegalArgumentException();
       }
       if (!isComplete(status)) {
         throw new IllegalArgumentException();
       }
-      this.steps.set(this.steps.size() - 1, new StepResult(name, status, msec, output));
+      this.steps.offerLast(new StepResult(name, status, msec, output));
       return this;
     }
 
@@ -170,7 +170,7 @@ public class Submission {
           repoId,
           tag,
           status,
-          steps,
+          steps.stream().collect(Collectors.toList()),
           errorMessage.stream().collect(Collectors.joining("\r\n")),
           dateScheduled,
           needsRetry);
