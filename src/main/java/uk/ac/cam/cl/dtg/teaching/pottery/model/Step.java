@@ -28,8 +28,6 @@ import java.util.stream.Collectors;
 /**
  * A Step represents a step that Pottery carries out when processing the user's code.
  *
- * A Step has a name which is used to identify it's output.
- *
  * A Step has a map of variant names to Executions for that variant. If no Execution is provided for
  * a variant, then the Execution for the "default" variant is run, if it exists. If it does not
  * exist, no Execution is run for this step.
@@ -39,21 +37,13 @@ import java.util.stream.Collectors;
  * validated with the same code.
  */
 public class Step {
-  @ApiModelProperty("Name of this step.")
-  private String name;
   @ApiModelProperty("Map from variants to execution to run for this step.")
   private Map<String, Execution> execution;
 
   @JsonCreator
   public Step(
-      @JsonProperty("name") String name,
       @JsonProperty("execution") Map<String, Execution> execution) {
-    this.name = name;
     this.execution = execution;
-  }
-
-  public String getName() {
-    return name;
   }
 
   @JsonProperty("execution")
@@ -62,7 +52,7 @@ public class Step {
   }
 
   public Step withDefaultContainerRestriction(ContainerRestrictions restrictions) {
-    return new Step(name, execution.entrySet().stream().collect(Collectors.toMap(
+    return new Step(execution.entrySet().stream().collect(Collectors.toMap(
         e -> e.getKey(),
         e -> e.getValue()
             .withDefaultContainerRestriction(restrictions)

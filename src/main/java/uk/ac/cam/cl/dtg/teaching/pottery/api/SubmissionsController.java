@@ -39,40 +39,38 @@ import uk.ac.cam.cl.dtg.teaching.pottery.model.Submission;
 @Api(value = "/submissions", description = "Manages requests for testing", position = 2)
 public interface SubmissionsController {
   @POST
-  @Path("/{repoId}/{tag}")
+  @Path("/{repoId}/{tag}/{action}")
   @ApiOperation(
-    value = "Schedules a test by creating a submission",
-    notes = "A submission is created from a tag in the code repository used by the candidate. ",
+    value = "Schedules an action by creating a submission",
+    notes = "An action is run for a tag in the code repository used by the candidate.",
     position = 0
   )
-  Submission scheduleTest(@PathParam("repoId") String repoId, @PathParam("tag") String tag)
+  Submission scheduleTest(@PathParam("repoId") String repoId, @PathParam("tag") String tag,
+                          @PathParam("action") String action)
       throws RepoStorageException, RepoExpiredException, SubmissionStorageException,
           RepoNotFoundException;
 
   @GET
-  @Path("/{repoId}/{tag}")
+  @Path("/{repoId}/{tag}/{action}")
   @ApiOperation(
-    value = "Poll the submission information",
-    notes = "Use this call to poll for the results of testing. ",
+    value = "Poll the action information",
+    notes = "Use this call to poll for the results of an action.",
     position = 1
   )
-  Submission getSubmission(@PathParam("repoId") String repoId, @PathParam("tag") String tag)
+  Submission getSubmission(@PathParam("repoId") String repoId, @PathParam("tag") String tag,
+                           @PathParam("action") String action)
       throws SubmissionNotFoundException, RepoStorageException, SubmissionStorageException,
           RepoNotFoundException;
 
   @GET
-  @Path("/{repoId}/{tag}/output/{step}")
+  @Path("/{repoId}/{tag}/{action}/output/{step}")
   @ApiOperation(
-      value = "Poll the output from a particular submission step",
+      value = "Poll the output from a particular action step",
       position = 2
   )
   @Produces("text/plain")
-  String getSubmission(@PathParam("repoId") String repoId, @PathParam("tag") String tag,
-                           @PathParam("step") String step)
+  String getOutput(@PathParam("repoId") String repoId, @PathParam("tag") String tag,
+                   @PathParam("action") String action, @PathParam("step") String step)
       throws SubmissionNotFoundException, RepoStorageException, SubmissionStorageException,
       RepoNotFoundException;
-
-  Response deleteSubmission(@PathParam("repoId") String repoId, @PathParam("tag") String tag)
-      throws RepoStorageException, RepoNotFoundException, SubmissionStorageException,
-          SubmissionNotFoundException, SubmissionAlreadyScheduledException;
 }
