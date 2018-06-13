@@ -165,6 +165,7 @@ public class Submission {
       if (!isComplete(status)) {
         throw new IllegalArgumentException();
       }
+      this.steps.removeLast();
       this.steps.offerLast(new StepResult(name, status, msec, output));
       return this;
     }
