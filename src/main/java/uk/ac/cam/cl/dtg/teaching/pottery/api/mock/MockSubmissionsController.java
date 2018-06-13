@@ -19,7 +19,6 @@
 package uk.ac.cam.cl.dtg.teaching.pottery.api.mock;
 
 import java.util.concurrent.atomic.AtomicInteger;
-
 import uk.ac.cam.cl.dtg.teaching.pottery.api.SubmissionsController;
 import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.RepoNotFoundException;
 import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.RepoStorageException;
@@ -41,15 +40,18 @@ public class MockSubmissionsController implements SubmissionsController {
     return Submission.builder(repoId, tag, action)
         .setStatus(Submission.STATUS_COMPLETE)
         .startStep("output")
-        .completeStep("output", Submission.STATUS_COMPLETE, -1,
+        .completeStep(
+            "output",
+            Submission.STATUS_COMPLETE,
+            -1,
             String.format("Polling %d", counter.incrementAndGet()))
         .build();
   }
 
   @Override
-  public String getOutput(String repoId, String tag, String action, String step) throws
-      SubmissionNotFoundException, RepoStorageException,
-      SubmissionStorageException, RepoNotFoundException {
+  public String getOutput(String repoId, String tag, String action, String step)
+      throws SubmissionNotFoundException, RepoStorageException, SubmissionStorageException,
+          RepoNotFoundException {
     return String.format("Polling %d", counter.incrementAndGet());
   }
 }

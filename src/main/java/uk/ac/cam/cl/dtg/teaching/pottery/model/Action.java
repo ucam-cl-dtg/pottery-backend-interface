@@ -21,12 +21,9 @@ package uk.ac.cam.cl.dtg.teaching.pottery.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.wordnik.swagger.annotations.ApiModelProperty;
-
 import java.util.List;
 
-/**
- * An Action represents a set of steps, for example validating a user's submission.
- */
+/** An Action represents a set of steps, for example validating a user's submission. */
 public class Action {
   @ApiModelProperty("Description of this action.")
   private final String description;
@@ -35,8 +32,8 @@ public class Action {
   private final List<String> steps;
 
   @JsonCreator
-  public Action(@JsonProperty("description") String description,
-                @JsonProperty("steps") List<String> steps) {
+  public Action(
+      @JsonProperty("description") String description, @JsonProperty("steps") List<String> steps) {
     this.description = description;
     this.steps = steps;
   }

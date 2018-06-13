@@ -25,23 +25,24 @@ import com.wordnik.swagger.annotations.ApiModelProperty;
 /**
  * An Execution represents a program that can be run by Pottery under a particular image.
  *
- * The program command-line can contain variables delimited with @'s (like @VARIABLE@) which are
+ * <p>The program command-line can contain variables delimited with @'s (like @VARIABLE@) which are
  * replaced by Pottery according to the context the Execution is run in.
  *
- * The container that is started has restrictions applied to it as specified; if none are specified,
- * Pottery can apply default restrictions.
+ * <p>The container that is started has restrictions applied to it as specified; if none are
+ * specified, Pottery can apply default restrictions.
  */
 public class Execution {
 
   // This is just a marker value and is not expected to actually be used.
-  private static final ContainerRestrictions DEFAULT_RESTRICTIONS = new ContainerRestrictions(
-      0,0, 0, true
-  );
+  private static final ContainerRestrictions DEFAULT_RESTRICTIONS =
+      new ContainerRestrictions(0, 0, 0, true);
 
   @ApiModelProperty("Image that this execution should be run in.")
   private String image;
+
   @ApiModelProperty("Command-line for this execution.")
   private String program;
+
   @ApiModelProperty("Container restrictions on this execution.")
   private ContainerRestrictions restrictions;
 

@@ -25,11 +25,9 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Response;
 import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.RepoExpiredException;
 import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.RepoNotFoundException;
 import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.RepoStorageException;
-import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.SubmissionAlreadyScheduledException;
 import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.SubmissionNotFoundException;
 import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.SubmissionStorageException;
 import uk.ac.cam.cl.dtg.teaching.pottery.model.Submission;
@@ -41,36 +39,38 @@ public interface SubmissionsController {
   @POST
   @Path("/{repoId}/{tag}/{action}")
   @ApiOperation(
-    value = "Schedules an action by creating a submission",
-    notes = "An action is run for a tag in the code repository used by the candidate.",
-    position = 0
-  )
-  Submission scheduleTest(@PathParam("repoId") String repoId, @PathParam("tag") String tag,
-                          @PathParam("action") String action)
+      value = "Schedules an action by creating a submission",
+      notes = "An action is run for a tag in the code repository used by the candidate.",
+      position = 0)
+  Submission scheduleTest(
+      @PathParam("repoId") String repoId,
+      @PathParam("tag") String tag,
+      @PathParam("action") String action)
       throws RepoStorageException, RepoExpiredException, SubmissionStorageException,
           RepoNotFoundException;
 
   @GET
   @Path("/{repoId}/{tag}/{action}")
   @ApiOperation(
-    value = "Poll the action information",
-    notes = "Use this call to poll for the results of an action.",
-    position = 1
-  )
-  Submission getSubmission(@PathParam("repoId") String repoId, @PathParam("tag") String tag,
-                           @PathParam("action") String action)
+      value = "Poll the action information",
+      notes = "Use this call to poll for the results of an action.",
+      position = 1)
+  Submission getSubmission(
+      @PathParam("repoId") String repoId,
+      @PathParam("tag") String tag,
+      @PathParam("action") String action)
       throws SubmissionNotFoundException, RepoStorageException, SubmissionStorageException,
           RepoNotFoundException;
 
   @GET
   @Path("/{repoId}/{tag}/{action}/output/{step}")
-  @ApiOperation(
-      value = "Poll the output from a particular action step",
-      position = 2
-  )
+  @ApiOperation(value = "Poll the output from a particular action step", position = 2)
   @Produces("text/plain")
-  String getOutput(@PathParam("repoId") String repoId, @PathParam("tag") String tag,
-                   @PathParam("action") String action, @PathParam("step") String step)
+  String getOutput(
+      @PathParam("repoId") String repoId,
+      @PathParam("tag") String tag,
+      @PathParam("action") String action,
+      @PathParam("step") String step)
       throws SubmissionNotFoundException, RepoStorageException, SubmissionStorageException,
-      RepoNotFoundException;
+          RepoNotFoundException;
 }

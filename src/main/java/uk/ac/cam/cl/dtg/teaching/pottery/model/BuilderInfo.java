@@ -18,11 +18,10 @@
 
 package uk.ac.cam.cl.dtg.teaching.pottery.model;
 
-import java.util.concurrent.ConcurrentLinkedDeque;
-import java.util.stream.Collectors;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.stream.Collectors;
 import uk.ac.cam.cl.dtg.teaching.exceptions.SerializableException;
 
 /**
@@ -36,19 +35,22 @@ public class BuilderInfo {
   public static final String STATUS_SCHEDULED = "SCHEDULED";
   public static final String STATUS_COPYING_FILES = "COPYING_FILES";
 
-  /** The compile section of task.json is executing.
+  /**
+   * The compile section of task.json is executing.
    *
-   * Typically, this would compile the tests and do any other preparation work required to test
+   * <p>Typically, this would compile the tests and do any other preparation work required to test
    * the built-in solutions or user-submitted code.
    */
   public static final String STATUS_COMPILING_TESTS = "COMPILING_TESTS";
 
-  /** The solutions in task.json are being tested.
+  /**
+   * The solutions in task.json are being tested.
    *
-   * Typically, this would compile and run the solutions, checking each one succeeds or fails as
+   * <p>Typically, this would compile and run the solutions, checking each one succeeds or fails as
    * expected.
    */
   public static final String STATUS_TESTING_SOLUTIONS = "TESTING_SOLUTIONS";
+
   public static final String STATUS_SUCCESS = "SUCCESS";
   public static final String STATUS_FAILURE = "FAILURE";
 
@@ -66,7 +68,8 @@ public class BuilderInfo {
 
   private final ConcurrentLinkedDeque<String> testCompileResponse = new ConcurrentLinkedDeque<>();
 
-  private final ConcurrentLinkedDeque<String> solutionTestingResponse = new ConcurrentLinkedDeque<>();
+  private final ConcurrentLinkedDeque<String> solutionTestingResponse =
+      new ConcurrentLinkedDeque<>();
 
   public BuilderInfo(String sha1) {
     super();
@@ -170,5 +173,4 @@ public class BuilderInfo {
         + '\''
         + '}';
   }
-
 }

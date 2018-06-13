@@ -30,9 +30,10 @@ public class Testcase {
   private final String expectedFailureStep;
 
   @JsonCreator
-  public Testcase(@JsonProperty("directory") String directory,
-                  @JsonProperty("action") String action,
-                  @JsonProperty("expected") String expectedFailureStep) {
+  public Testcase(
+      @JsonProperty("directory") String directory,
+      @JsonProperty("action") String action,
+      @JsonProperty("expected") String expectedFailureStep) {
     this.directory = directory;
     this.action = action;
     this.expectedFailureStep = expectedFailureStep;

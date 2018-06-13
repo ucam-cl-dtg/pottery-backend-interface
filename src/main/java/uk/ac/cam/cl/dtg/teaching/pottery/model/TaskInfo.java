@@ -21,7 +21,6 @@ package uk.ac.cam.cl.dtg.teaching.pottery.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.wordnik.swagger.annotations.ApiModelProperty;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -135,8 +134,7 @@ public class TaskInfo {
       @JsonProperty("taskTests") Map<String, List<Testcase>> taskTests,
       @JsonProperty("taskCompilation") List<Execution> taskCompilation,
       @JsonProperty("steps") Map<String, Step> steps,
-      @JsonProperty("actions") Map<String, Action> actions
-  ) {
+      @JsonProperty("actions") Map<String, Action> actions) {
     super();
     this.taskId = taskId;
     this.type = type;
@@ -148,14 +146,26 @@ public class TaskInfo {
     this.questions = questions;
     this.variants = variants;
     this.taskTests = taskTests;
-    this.taskCompilation = taskCompilation.stream()
-        .map(e -> e.withDefaultContainerRestriction(
-            ContainerRestrictions.DEFAULT_AUTHOR_RESTRICTIONS))
-        .collect(Collectors.toList());
-    this.steps = steps.entrySet().stream()
-        .collect(Collectors.toMap(entry -> entry.getKey(),
-            entry -> entry.getValue().withDefaultContainerRestriction(
-                ContainerRestrictions.DEFAULT_CANDIDATE_RESTRICTIONS)));
+    this.taskCompilation =
+        taskCompilation
+            .stream()
+            .map(
+                e ->
+                    e.withDefaultContainerRestriction(
+                        ContainerRestrictions.DEFAULT_AUTHOR_RESTRICTIONS))
+            .collect(Collectors.toList());
+    this.steps =
+        steps
+            .entrySet()
+            .stream()
+            .collect(
+                Collectors.toMap(
+                    entry -> entry.getKey(),
+                    entry ->
+                        entry
+                            .getValue()
+                            .withDefaultContainerRestriction(
+                                ContainerRestrictions.DEFAULT_CANDIDATE_RESTRICTIONS)));
     this.actions = actions;
   }
 

@@ -21,18 +21,17 @@ package uk.ac.cam.cl.dtg.teaching.pottery.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.wordnik.swagger.annotations.ApiModelProperty;
-
 import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
  * A Step represents a step that Pottery carries out when processing the user's code.
  *
- * A Step has a map of variant names to Executions for that variant. If no Execution is provided for
- * a variant, then the Execution for the "default" variant is run, if it exists. If it does not
+ * <p>A Step has a map of variant names to Executions for that variant. If no Execution is provided
+ * for a variant, then the Execution for the "default" variant is run, if it exists. If it does not
  * exist, no Execution is run for this step.
  *
- * For example, a compile Step might only have Executions specified for variants that require
+ * <p>For example, a compile Step might only have Executions specified for variants that require
  * compilation, and a validation Step might only have a default variant so that all variants are
  * validated with the same code.
  */
@@ -41,8 +40,7 @@ public class Step {
   private Map<String, Execution> execution;
 
   @JsonCreator
-  public Step(
-      @JsonProperty("execution") Map<String, Execution> execution) {
+  public Step(@JsonProperty("execution") Map<String, Execution> execution) {
     this.execution = execution;
   }
 
@@ -52,10 +50,13 @@ public class Step {
   }
 
   public Step withDefaultContainerRestriction(ContainerRestrictions restrictions) {
-    return new Step(execution.entrySet().stream().collect(Collectors.toMap(
-        e -> e.getKey(),
-        e -> e.getValue()
-            .withDefaultContainerRestriction(restrictions)
-    )));
+    return new Step(
+        execution
+            .entrySet()
+            .stream()
+            .collect(
+                Collectors.toMap(
+                    e -> e.getKey(),
+                    e -> e.getValue().withDefaultContainerRestriction(restrictions))));
   }
 }

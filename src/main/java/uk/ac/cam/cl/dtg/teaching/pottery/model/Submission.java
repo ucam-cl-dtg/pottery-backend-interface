@@ -21,7 +21,6 @@ package uk.ac.cam.cl.dtg.teaching.pottery.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableSet;
-
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Date;
@@ -146,8 +145,11 @@ public class Submission {
 
     public Builder setStarted() {
       startStep(WAIT_STEP_NAME);
-      return completeStep(WAIT_STEP_NAME, STATUS_COMPLETE,
-          System.currentTimeMillis() - dateScheduled.getTime(), null);
+      return completeStep(
+          WAIT_STEP_NAME,
+          STATUS_COMPLETE,
+          System.currentTimeMillis() - dateScheduled.getTime(),
+          null);
     }
 
     public Builder startStep(String name) {
@@ -193,10 +195,7 @@ public class Submission {
   }
 
   private static boolean isComplete(String status) {
-    return ImmutableSet.of(
-            STATUS_COMPLETE,
-            STATUS_FAILED)
-        .contains(status);
+    return ImmutableSet.of(STATUS_COMPLETE, STATUS_FAILED).contains(status);
   }
 
   @Override

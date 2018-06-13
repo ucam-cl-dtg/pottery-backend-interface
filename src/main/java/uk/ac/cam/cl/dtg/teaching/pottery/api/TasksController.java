@@ -42,47 +42,42 @@ import uk.ac.cam.cl.dtg.teaching.pottery.model.TaskStatus;
 @Produces("application/json")
 @Path("/tasks")
 @Api(
-  value = "/tasks",
-  description = "Manages the descriptions of the programming questions.",
-  position = 0
-)
+    value = "/tasks",
+    description = "Manages the descriptions of the programming questions.",
+    position = 0)
 public interface TasksController {
   @GET
   @Path("/registered")
   @ApiOperation(
-    value = "Lists all registered tasks",
-    response = TaskInfo.class,
-    responseContainer = "List",
-    position = 0
-  )
+      value = "Lists all registered tasks",
+      response = TaskInfo.class,
+      responseContainer = "List",
+      position = 0)
   Collection<TaskInfo> listRegistered();
 
   @GET
   @Path("/")
   @ApiOperation(
-    value = "List the ids of all tasks (not retired) that exist",
-    response = String.class,
-    responseContainer = "List"
-  )
+      value = "List the ids of all tasks (not retired) that exist",
+      response = String.class,
+      responseContainer = "List")
   Collection<String> listAll();
 
   @GET
   @Path("/retired")
   @ApiOperation(
-    value = "List the ids of all retired tasks",
-    response = String.class,
-    responseContainer = "List"
-  )
+      value = "List the ids of all retired tasks",
+      response = String.class,
+      responseContainer = "List")
   Collection<String> listRetired();
 
   @GET
   @Path("/testing")
   @ApiOperation(
-    value = "Lists all tasks with a testing version",
-    response = TaskInfo.class,
-    responseContainer = "List",
-    position = 0
-  )
+      value = "Lists all tasks with a testing version",
+      response = TaskInfo.class,
+      responseContainer = "List",
+      position = 0)
   Collection<TaskInfo> listTesting();
 
   @POST
@@ -93,9 +88,8 @@ public interface TasksController {
   @POST
   @Path("/create_remote")
   @ApiOperation(
-    value = "Create a remote task (whose definition will be stored on another server)",
-    response = TaskLocation.class
-  )
+      value = "Create a remote task (whose definition will be stored on another server)",
+      response = TaskLocation.class)
   TaskLocation createRemote(@FormParam("remote") String remote) throws TaskStorageException;
 
   @GET
@@ -106,9 +100,8 @@ public interface TasksController {
   @GET
   @Path("/{taskId}/status")
   @ApiOperation(
-    value = "Returns the SHA1 of refs/heads/master for this task",
-    response = String.class
-  )
+      value = "Returns the SHA1 of refs/heads/master for this task",
+      response = String.class)
   TaskStatus getStatus(@PathParam("taskId") String taskId)
       throws TaskNotFoundException, TaskStorageException;
 
@@ -127,10 +120,9 @@ public interface TasksController {
   @POST
   @Path("/{taskId}/register")
   @ApiOperation(
-    value =
-        "Registers (or updates the registered version) of a task. If sha1 is not specified then "
-            + "HEAD is used."
-  )
+      value =
+          "Registers (or updates the registered version) of a task. If sha1 is not specified then "
+              + "HEAD is used.")
   BuilderInfo scheduleTaskRegistration(
       @PathParam("taskId") String taskId, @FormParam("sha1") String sha1)
       throws TaskNotFoundException, RetiredTaskException;

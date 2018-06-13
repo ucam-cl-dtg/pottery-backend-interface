@@ -32,19 +32,17 @@ public interface StatusController {
   @GET
   @Path("/")
   @ApiOperation(
-    value = "Get server status",
-    response = String.class,
-    responseContainer = "Map",
-    position = 0
-  )
+      value = "Get server status",
+      response = String.class,
+      responseContainer = "Map",
+      position = 0)
   Map<String, String> getStatus();
 
   @GET
   @Path("/dockerVersion")
   @ApiOperation(
-    value = "Query the docker api for the version number",
-    response = String.class,
-    position = 1
-  )
+      value = "Query the docker api for the version number",
+      response = String.class,
+      position = 1)
   String checkDockerVersion();
 }
