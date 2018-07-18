@@ -150,28 +150,28 @@ public interface TasksController {
       throws TaskNotFoundException;
 
   @GET
-  @Path("/{taskId}/files")
+  @Path("/{taskId}/skeleton/{variant}")
   @ApiOperation(
       value = "List all the files in a task skeleton",
       response = String.class,
       responseContainer = "List")
-  List<String> listFiles(
+  List<String> listSkeletonFiles(
       @PathParam("taskId") String taskId,
-      @QueryParam("usingTestingVersion") Boolean usingTestingVersion,
-      @QueryParam("variant") String variant)
+      @PathParam("variant") String variant,
+      @QueryParam("usingTestingVersion") Boolean usingTestingVersion)
       throws TaskNotFoundException, TaskMissingVariantException, TaskStorageException;
 
   @GET
-  @Path("/{taskId}/{files}/{fileName:.+}")
+  @Path("/{taskId}/skeleton/{variant}/{fileName:.+}")
   @Produces("application/octet-stream")
   @ApiOperation(
       value = "Read a file from the task skeleton",
       notes = "Returns the file contents directly")
-  Response readFile(
+  Response readSkeletonFile(
       @PathParam("taskId") String taskId,
+      @PathParam("variant") String variant,
       @PathParam("fileName") String fileName,
-      @QueryParam("usingTestingVersion") Boolean usingTestingVersion,
-      @QueryParam("variant") String variant)
+      @QueryParam("usingTestingVersion") Boolean usingTestingVersion)
       throws TaskNotFoundException, TaskMissingVariantException;
 
   @GET
