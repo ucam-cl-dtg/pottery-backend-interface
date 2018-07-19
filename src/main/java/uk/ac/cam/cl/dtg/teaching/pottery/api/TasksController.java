@@ -21,6 +21,7 @@ package uk.ac.cam.cl.dtg.teaching.pottery.api;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -28,10 +29,13 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+
 import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.RetiredTaskException;
+import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.TaskMissingVariantException;
 import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.TaskNotFoundException;
 import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.TaskStorageException;
 import uk.ac.cam.cl.dtg.teaching.pottery.model.BuilderInfo;
@@ -144,6 +148,31 @@ public interface TasksController {
   @ApiOperation(value = "Polls the progress of the current testing registration process.")
   BuilderInfo pollTaskTestingStatus(@PathParam("taskId") String taskId)
       throws TaskNotFoundException;
+
+  @GET
+  @Path("/{taskId}/skeleton/{variant}")
+  @ApiOperation(
+      value = "List all the files in a task skeleton",
+      response = String.class,
+      responseContainer = "List")
+  List<String> listSkeletonFiles(
+      @PathParam("taskId") String taskId,
+      @PathParam("variant") String variant,
+      @QueryParam("usingTestingVersion") Boolean usingTestingVersion)
+      throws TaskNotFoundException, TaskMissingVariantException, TaskStorageException;
+
+  @GET
+  @Path("/{taskId}/skeleton/{variant}/{fileName:.+}")
+  @Produces("application/octet-stream")
+  @ApiOperation(
+      value = "Read a file from the task skeleton",
+      notes = "Returns the file contents directly")
+  Response readSkeletonFile(
+      @PathParam("taskId") String taskId,
+      @PathParam("variant") String variant,
+      @PathParam("fileName") String fileName,
+      @QueryParam("usingTestingVersion") Boolean usingTestingVersion)
+      throws TaskNotFoundException, TaskMissingVariantException;
 
   @GET
   @Path("/types")
