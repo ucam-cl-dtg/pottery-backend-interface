@@ -19,6 +19,7 @@
 package uk.ac.cam.cl.dtg.teaching.pottery.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableSet;
 import java.util.ArrayDeque;
@@ -190,6 +191,7 @@ public class Submission {
     }
   }
 
+  @JsonIgnore
   public boolean isComplete() {
     return isComplete(status);
   }
