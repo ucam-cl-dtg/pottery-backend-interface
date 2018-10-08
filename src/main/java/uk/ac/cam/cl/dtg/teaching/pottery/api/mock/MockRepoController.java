@@ -18,11 +18,15 @@
 
 package uk.ac.cam.cl.dtg.teaching.pottery.api.mock;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.ws.rs.core.Response;
 import uk.ac.cam.cl.dtg.teaching.pottery.api.RepoController;
+import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.RepoNotFoundException;
+import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.RepoStorageException;
+import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.TaskInvalidParametersException;
 import uk.ac.cam.cl.dtg.teaching.pottery.model.FileData;
 import uk.ac.cam.cl.dtg.teaching.pottery.model.RepoInfo;
 import uk.ac.cam.cl.dtg.teaching.pottery.model.RepoTag;
@@ -32,10 +36,16 @@ public class MockRepoController implements RepoController {
   private Map<String, RepoData> mockRepos = new HashMap<>();
 
   @Override
-  public RepoInfo makeRepo(
-      String taskId, Boolean usingTestingVersion, Integer validityMinutes, String variant) {
-    RepoData repoData =
-        new RepoData(taskId, usingTestingVersion, validityMinutes, variant, RepoInfo.REMOTE_UNSET);
+  public RepoInfo makeRepo(String taskId, Boolean usingTestingVersion, Integer validityMinutes,
+                           String variant, Integer seed, String extraParameters)
+      throws TaskInvalidParametersException {
+    RepoData repoData = null;
+    try {
+      repoData = new RepoData(taskId, usingTestingVersion, validityMinutes, variant,
+          RepoInfo.REMOTE_UNSET, seed, extraParameters);
+    } catch (IOException e) {
+      throw new TaskInvalidParametersException(e);
+    }
     mockRepos.put(repoData.repoInfo.getRepoId(), repoData);
     return repoData.repoInfo;
   }
@@ -46,14 +56,28 @@ public class MockRepoController implements RepoController {
       Boolean usingTestingVersion,
       Integer validityMinutes,
       String variant,
-      String remote) {
-    RepoData repoData = new RepoData(taskId, usingTestingVersion, validityMinutes, variant, remote);
+      String remote,
+      Integer seed,
+      String extraParameters) throws TaskInvalidParametersException {
+    RepoData repoData = null;
+    try {
+      repoData = new RepoData(taskId, usingTestingVersion, validityMinutes, variant, remote, seed,
+          extraParameters);
+    } catch (IOException e) {
+      throw new TaskInvalidParametersException(e);
+    }
     return repoData.repoInfo;
   }
 
   @Override
   public List<String> listTags(String repoId) {
     return mockRepos.get(repoId).tags;
+  }
+
+  @Override
+  public String getParameterisedProblemStatement(String repoId)
+      throws RepoStorageException, RepoNotFoundException {
+    throw new Error("getParameterisedProblemStatement is unimplemented");
   }
 
   @Override

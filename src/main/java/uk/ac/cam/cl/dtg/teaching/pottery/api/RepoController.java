@@ -31,12 +31,14 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
+import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.InvalidParameterisationException;
 import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.RepoExpiredException;
 import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.RepoFileNotFoundException;
 import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.RepoNotFoundException;
 import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.RepoStorageException;
 import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.RepoTagNotFoundException;
 import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.RetiredTaskException;
+import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.TaskInvalidParametersException;
 import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.TaskMissingVariantException;
 import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.TaskNotFoundException;
 import uk.ac.cam.cl.dtg.teaching.pottery.model.FileData;
@@ -57,9 +59,12 @@ public interface RepoController {
       @FormParam("taskId") String taskId,
       @FormParam("usingTestingVersion") Boolean usingTestingVersion,
       @FormParam("validityMinutes") Integer validityMinutes,
-      @FormParam("variant") String variant)
+      @FormParam("variant") String variant,
+      @FormParam("seed") Integer seed,
+      @FormParam("extraParameters") String extraParameters)
       throws TaskNotFoundException, RepoExpiredException, RepoStorageException,
-          RetiredTaskException, RepoNotFoundException, TaskMissingVariantException;
+      RetiredTaskException, RepoNotFoundException, TaskMissingVariantException,
+      TaskInvalidParametersException, InvalidParameterisationException;
 
   @POST
   @Path("/remote")
@@ -72,9 +77,12 @@ public interface RepoController {
       @FormParam("usingTestingVersion") Boolean usingTestingVersion,
       @FormParam("validityMinutes") Integer validityMinutes,
       @FormParam("variant") String variant,
-      @FormParam("remote") String remote)
+      @FormParam("remote") String remote,
+      @FormParam("seed") Integer seed,
+      @FormParam("extraParameters") String extraParameters)
       throws TaskNotFoundException, RepoExpiredException, RepoStorageException,
-          RetiredTaskException, RepoNotFoundException, TaskMissingVariantException;
+      RetiredTaskException, RepoNotFoundException, TaskMissingVariantException,
+      TaskInvalidParametersException, InvalidParameterisationException;
 
   @GET
   @Path("/{repoId}")
@@ -84,6 +92,16 @@ public interface RepoController {
       responseContainer = "List")
   List<String> listTags(@PathParam("repoId") String repoId)
       throws RepoStorageException, RepoNotFoundException;
+
+  @GET
+  @Path("/{repoId}/problemStatement")
+  @Produces("text/html")
+  @ApiOperation(
+      value = "Get the problem statement for this parameterisation of the task.",
+      response = String.class)
+  String getParameterisedProblemStatement(@PathParam("repoId") String repoId)
+      throws RepoStorageException, RepoNotFoundException, TaskNotFoundException;
+
 
   @GET
   @Path("/{repoId}/{tag}")

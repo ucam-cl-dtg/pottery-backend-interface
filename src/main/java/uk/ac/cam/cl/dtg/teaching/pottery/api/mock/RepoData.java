@@ -18,6 +18,8 @@
 
 package uk.ac.cam.cl.dtg.teaching.pottery.api.mock;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
@@ -33,13 +35,16 @@ class RepoData {
   final List<String> tags = new LinkedList<>();
   final List<String> files = new LinkedList<>();
   final AtomicInteger tagCounter = new AtomicInteger(0);
+  final ObjectMapper objectMapper = new ObjectMapper();
 
   RepoData(
       String taskId,
       boolean usingTestingVersion,
       Integer validityMinutes,
       String variant,
-      String remote) {
+      String remote,
+      Integer seed,
+      String extraParameters) throws IOException {
     Calendar cal = Calendar.getInstance();
     cal.add(Calendar.MINUTE, validityMinutes);
     this.repoInfo =
@@ -49,7 +54,9 @@ class RepoData {
             usingTestingVersion,
             cal.getTime(),
             variant,
-            remote);
+            remote,
+            seed,
+            objectMapper.readTree(extraParameters));
   }
 
   String addTag() {
