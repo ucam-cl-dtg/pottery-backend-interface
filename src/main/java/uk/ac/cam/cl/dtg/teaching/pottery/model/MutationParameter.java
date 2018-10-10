@@ -26,7 +26,7 @@ public class MutationParameter {
   @ApiModelProperty("The name of this parameter.")
   private final String name;
 
-  @ApiModelProperty("The values that are drawn for this parameter.")
+  @ApiModelProperty("The name of the set of values to drawn from for this parameter.")
   private final String value;
 
   @JsonCreator

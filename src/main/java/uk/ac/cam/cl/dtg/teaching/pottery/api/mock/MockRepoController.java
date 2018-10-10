@@ -75,9 +75,9 @@ public class MockRepoController implements RepoController {
   }
 
   @Override
-  public String getParameterisedProblemStatement(String repoId)
+  public String getProblemStatement(String repoId)
       throws RepoStorageException, RepoNotFoundException {
-    throw new Error("getParameterisedProblemStatement is unimplemented");
+    throw new Error("getProblemStatement is unimplemented");
   }
 
   @Override

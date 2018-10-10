@@ -99,7 +99,7 @@ public interface RepoController {
   @ApiOperation(
       value = "Get the problem statement for this parameterisation of the task.",
       response = String.class)
-  String getParameterisedProblemStatement(@PathParam("repoId") String repoId)
+  String getProblemStatement(@PathParam("repoId") String repoId)
       throws RepoStorageException, RepoNotFoundException, TaskNotFoundException;
 
 
