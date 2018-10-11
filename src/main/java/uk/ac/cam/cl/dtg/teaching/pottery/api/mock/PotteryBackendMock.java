@@ -27,8 +27,9 @@ import uk.ac.cam.cl.dtg.teaching.pottery.api.WorkerController;
 
 public class PotteryBackendMock implements PotteryBackend {
 
-  private MockSubmissionsController submissionsController = new MockSubmissionsController();
-  private MockRepoController repoController = new MockRepoController();
+  private final MockSubmissionsController submissionsController = new MockSubmissionsController();
+  private final MockRepoController repoController = new MockRepoController();
+  private final MockStatusController statusController = new MockStatusController();
 
   @Override
   public RepoController getRepoController() {
@@ -37,7 +38,7 @@ public class PotteryBackendMock implements PotteryBackend {
 
   @Override
   public StatusController getStatusController() {
-    throw new Error("StatusController is unimplemented");
+    return statusController;
   }
 
   @Override
