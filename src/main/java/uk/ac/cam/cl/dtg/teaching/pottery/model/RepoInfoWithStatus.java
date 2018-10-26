@@ -81,10 +81,6 @@ public class RepoInfoWithStatus {
     return remote;
   }
 
-  public boolean isRemote() {
-    return !remote.equals(REMOTE_UNSET);
-  }
-
   public RepoStatus getStatus() {
     return status;
   }
