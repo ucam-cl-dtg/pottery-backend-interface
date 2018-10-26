@@ -55,7 +55,7 @@ public class MockRepoController implements RepoController {
   }
 
   @Override
-  public RepoInfoWithStatus getStatus(String repoId) throws RepoStorageException, RepoNotFoundException {
+  public RepoInfoWithStatus getStatus(String repoId) {
     return new RepoInfoWithStatus(mockRepos.get(repoId).repoInfo, true);
   }
 
