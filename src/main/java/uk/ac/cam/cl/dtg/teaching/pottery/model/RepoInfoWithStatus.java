@@ -30,9 +30,10 @@ public class RepoInfoWithStatus {
       RepoInfo repoInfo,
       boolean ready) {
     this.repoInfo = repoInfo;
-    this.status = ready ?
-        (Calendar.getInstance().getTime().before(repoInfo.getExpiryDate()) ?
-            RepoStatus.READY : RepoStatus.EXPIRED)
+    boolean expired = repoInfo.getExpiryDate() != null
+        && new Date().after(repoInfo.getExpiryDate());
+    this.status = ready
+        ? (expired ? RepoStatus.EXPIRED : RepoStatus.READY)
         : RepoStatus.CREATING;
   }
 
