@@ -27,19 +27,20 @@ public class MutationParameter {
   private final String name;
 
   @ApiModelProperty("The name of the set of values to drawn from for this parameter.")
-  private final String value;
+  private final String valueSetName;
 
   @JsonCreator
-  public MutationParameter(@JsonProperty("name") String name, @JsonProperty("value") String value) {
+  public MutationParameter(@JsonProperty("name") String name,
+                           @JsonProperty("valueSetName") String valueSetName) {
     this.name = name;
-    this.value = value;
+    this.valueSetName = valueSetName;
   }
 
   public String getName() {
     return name;
   }
 
-  public String getValue() {
-    return value;
+  public String getValueSetName() {
+    return valueSetName;
   }
 }
