@@ -77,6 +77,13 @@ public interface RepoController {
           RetiredTaskException, RepoNotFoundException, TaskMissingVariantException;
 
   @GET
+  @Path("/{repoId}/status")
+  @ApiOperation(
+      value = "Get the status of a repository")
+  RepoInfoWithStatus getStatus(@PathParam("repoId") String repoId)
+      throws RepoStorageException, RepoNotFoundException;
+
+  @GET
   @Path("/{repoId}")
   @ApiOperation(
       value = "List all the tags in repository",

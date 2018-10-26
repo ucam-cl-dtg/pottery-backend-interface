@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Map;
 import javax.ws.rs.core.Response;
 import uk.ac.cam.cl.dtg.teaching.pottery.api.RepoController;
+import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.RepoNotFoundException;
+import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.RepoStorageException;
 import uk.ac.cam.cl.dtg.teaching.pottery.model.FileData;
 import uk.ac.cam.cl.dtg.teaching.pottery.model.RepoInfo;
 import uk.ac.cam.cl.dtg.teaching.pottery.model.RepoInfoWithStatus;
@@ -50,6 +52,11 @@ public class MockRepoController implements RepoController {
       String remote) {
     RepoData repoData = new RepoData(taskId, usingTestingVersion, validityMinutes, variant, remote);
     return new RepoInfoWithStatus(repoData.repoInfo, true);
+  }
+
+  @Override
+  public RepoInfoWithStatus getStatus(String repoId) throws RepoStorageException, RepoNotFoundException {
+    return new RepoInfoWithStatus(mockRepos.get(repoId).repoInfo, true);
   }
 
   @Override
