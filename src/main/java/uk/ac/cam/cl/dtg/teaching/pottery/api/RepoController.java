@@ -40,7 +40,7 @@ import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.RetiredTaskException;
 import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.TaskMissingVariantException;
 import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.TaskNotFoundException;
 import uk.ac.cam.cl.dtg.teaching.pottery.model.FileData;
-import uk.ac.cam.cl.dtg.teaching.pottery.model.RepoInfo;
+import uk.ac.cam.cl.dtg.teaching.pottery.model.RepoInfoWithStatus;
 import uk.ac.cam.cl.dtg.teaching.pottery.model.RepoTag;
 
 @Produces("application/json")
@@ -53,7 +53,7 @@ public interface RepoController {
       value = "Start a new repository",
       notes = "Starts a new repository for solving the specified task",
       position = 0)
-  RepoInfo makeRepo(
+  RepoInfoWithStatus makeRepo(
       @FormParam("taskId") String taskId,
       @FormParam("usingTestingVersion") Boolean usingTestingVersion,
       @FormParam("validityMinutes") Integer validityMinutes,
@@ -67,7 +67,7 @@ public interface RepoController {
       value = "Start a new remote repository",
       notes = "Starts a new repository for solving the specified task that is hosted remotely",
       position = 1)
-  RepoInfo makeRemoteRepo(
+  RepoInfoWithStatus makeRemoteRepo(
       @FormParam("taskId") String taskId,
       @FormParam("usingTestingVersion") Boolean usingTestingVersion,
       @FormParam("validityMinutes") Integer validityMinutes,

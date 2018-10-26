@@ -25,6 +25,7 @@ import javax.ws.rs.core.Response;
 import uk.ac.cam.cl.dtg.teaching.pottery.api.RepoController;
 import uk.ac.cam.cl.dtg.teaching.pottery.model.FileData;
 import uk.ac.cam.cl.dtg.teaching.pottery.model.RepoInfo;
+import uk.ac.cam.cl.dtg.teaching.pottery.model.RepoInfoWithStatus;
 import uk.ac.cam.cl.dtg.teaching.pottery.model.RepoTag;
 
 public class MockRepoController implements RepoController {
@@ -32,23 +33,23 @@ public class MockRepoController implements RepoController {
   private Map<String, RepoData> mockRepos = new HashMap<>();
 
   @Override
-  public RepoInfo makeRepo(
+  public RepoInfoWithStatus makeRepo(
       String taskId, Boolean usingTestingVersion, Integer validityMinutes, String variant) {
     RepoData repoData =
         new RepoData(taskId, usingTestingVersion, validityMinutes, variant, RepoInfo.REMOTE_UNSET);
     mockRepos.put(repoData.repoInfo.getRepoId(), repoData);
-    return repoData.repoInfo;
+    return new RepoInfoWithStatus(repoData.repoInfo, true);
   }
 
   @Override
-  public RepoInfo makeRemoteRepo(
+  public RepoInfoWithStatus makeRemoteRepo(
       String taskId,
       Boolean usingTestingVersion,
       Integer validityMinutes,
       String variant,
       String remote) {
     RepoData repoData = new RepoData(taskId, usingTestingVersion, validityMinutes, variant, remote);
-    return repoData.repoInfo;
+    return new RepoInfoWithStatus(repoData.repoInfo, true);
   }
 
   @Override
