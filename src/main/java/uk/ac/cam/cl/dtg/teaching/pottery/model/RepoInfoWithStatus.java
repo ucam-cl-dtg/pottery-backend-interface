@@ -18,50 +18,74 @@
 
 package uk.ac.cam.cl.dtg.teaching.pottery.model;
 
-import java.util.Calendar;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Date;
 
 public class RepoInfoWithStatus {
 
-  private RepoInfo repoInfo;
+  public static final String REMOTE_UNSET = "";
+
+  private String repoId;
+  private String taskId;
+  private boolean usingTestingVersion;
+
   private RepoStatus status;
 
+  private Date expiryDate;
+
+  private String variant;
+
+  /** If this value is set then indicates that this repo is hosted remotely. */
+  private String remote;
+
   public RepoInfoWithStatus(
-      RepoInfo repoInfo,
-      boolean ready) {
-    this.repoInfo = repoInfo;
-    boolean expired = repoInfo.getExpiryDate() != null
-        && new Date().after(repoInfo.getExpiryDate());
-    this.status = ready
-        ? (expired ? RepoStatus.EXPIRED : RepoStatus.READY)
-        : RepoStatus.CREATING;
+      @JsonProperty("repoId") String repoId,
+      @JsonProperty("taskId") String taskId,
+      @JsonProperty("usingTestingVersion") boolean usingTestingVersion,
+      @JsonProperty("status") RepoStatus status,
+      @JsonProperty("expiryDate") Date expiryDate,
+      @JsonProperty("variant") String variant,
+      @JsonProperty("remote") String remote) {
+    super();
+    this.repoId = repoId;
+    this.taskId = taskId;
+    this.usingTestingVersion = usingTestingVersion;
+    this.status = status;
+    this.expiryDate = expiryDate;
+    this.variant = variant;
+    this.remote = remote;
   }
 
   public Date getExpiryDate() {
-    return repoInfo.getExpiryDate();
+    return expiryDate;
   }
 
   public String getRepoId() {
-    return repoInfo.getRepoId();
+    return repoId;
   }
 
   public String getTaskId() {
-    return repoInfo.getTaskId();
+    return taskId;
   }
 
   public boolean isUsingTestingVersion() {
-    return repoInfo.isUsingTestingVersion();
+    return usingTestingVersion;
+  }
+
+  public String getVariant() {
+    return variant;
+  }
+
+  public String getRemote() {
+    return remote;
+  }
+
+  public boolean isRemote() {
+    return !remote.equals(REMOTE_UNSET);
   }
 
   public RepoStatus getStatus() {
     return status;
-  }
-
-  public String getVariant() {
-    return repoInfo.getVariant();
-  }
-
-  public String getRemote() {
-    return repoInfo.getRemote();
   }
 }

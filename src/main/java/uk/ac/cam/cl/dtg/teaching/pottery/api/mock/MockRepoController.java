@@ -23,10 +23,7 @@ import java.util.List;
 import java.util.Map;
 import javax.ws.rs.core.Response;
 import uk.ac.cam.cl.dtg.teaching.pottery.api.RepoController;
-import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.RepoNotFoundException;
-import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.RepoStorageException;
 import uk.ac.cam.cl.dtg.teaching.pottery.model.FileData;
-import uk.ac.cam.cl.dtg.teaching.pottery.model.RepoInfo;
 import uk.ac.cam.cl.dtg.teaching.pottery.model.RepoInfoWithStatus;
 import uk.ac.cam.cl.dtg.teaching.pottery.model.RepoTag;
 
@@ -38,9 +35,10 @@ public class MockRepoController implements RepoController {
   public RepoInfoWithStatus makeRepo(
       String taskId, Boolean usingTestingVersion, Integer validityMinutes, String variant) {
     RepoData repoData =
-        new RepoData(taskId, usingTestingVersion, validityMinutes, variant, RepoInfo.REMOTE_UNSET);
+        new RepoData(taskId, usingTestingVersion, validityMinutes, variant,
+            RepoInfoWithStatus.REMOTE_UNSET);
     mockRepos.put(repoData.repoInfo.getRepoId(), repoData);
-    return new RepoInfoWithStatus(repoData.repoInfo, true);
+    return repoData.repoInfo;
   }
 
   @Override
@@ -51,12 +49,12 @@ public class MockRepoController implements RepoController {
       String variant,
       String remote) {
     RepoData repoData = new RepoData(taskId, usingTestingVersion, validityMinutes, variant, remote);
-    return new RepoInfoWithStatus(repoData.repoInfo, true);
+    return repoData.repoInfo;
   }
 
   @Override
   public RepoInfoWithStatus getStatus(String repoId) {
-    return new RepoInfoWithStatus(mockRepos.get(repoId).repoInfo, true);
+    return mockRepos.get(repoId).repoInfo;
   }
 
   @Override
