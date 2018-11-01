@@ -104,25 +104,12 @@ public class TaskInfo {
   @ApiModelProperty("Variants supported by this task")
   private Set<String> variants;
 
-  @ApiModelProperty("Internal tests that should be run when the task is registered")
-  private Map<String, List<Testcase>> taskTests;
-
-  @ApiModelProperty("List of executions needed to be run to compile this task")
-  private List<Execution> taskCompilation;
-
-  @ApiModelProperty("Map of named steps that can be used in actions")
-  private Map<String, Step> steps;
-
   @ApiModelProperty("Actions that can be requested for this task")
-  private Map<String, Action> actions;
-
-  public TaskInfo(String taskId) {
-    super();
-    this.taskId = taskId;
-  }
+  private Set<String> actions;
 
   @JsonCreator
   public TaskInfo(
+      @JsonProperty("taskId") String taskId,
       @JsonProperty("type") String type,
       @JsonProperty("name") String name,
       @JsonProperty("criteria") Set<String> criteria,
@@ -131,11 +118,7 @@ public class TaskInfo {
       @JsonProperty("problemStatement") String problemStatement,
       @JsonProperty("questions") List<String> questions,
       @JsonProperty("variants") Set<String> variants,
-      @JsonProperty("taskTests") Map<String, List<Testcase>> taskTests,
-      @JsonProperty("taskCompilation") List<Execution> taskCompilation,
-      @JsonProperty("steps") Map<String, Step> steps,
-      @JsonProperty("actions") Map<String, Action> actions) {
-    super();
+      @JsonProperty("actions") Set<String> actions) {
     this.taskId = taskId;
     this.type = type;
     this.name = name;
@@ -145,27 +128,6 @@ public class TaskInfo {
     this.problemStatement = problemStatement;
     this.questions = questions;
     this.variants = variants;
-    this.taskTests = taskTests;
-    this.taskCompilation =
-        taskCompilation
-            .stream()
-            .map(
-                e ->
-                    e.withDefaultContainerRestriction(
-                        ContainerRestrictions.DEFAULT_AUTHOR_RESTRICTIONS))
-            .collect(Collectors.toList());
-    this.steps =
-        steps
-            .entrySet()
-            .stream()
-            .collect(
-                Collectors.toMap(
-                    entry -> entry.getKey(),
-                    entry ->
-                        entry
-                            .getValue()
-                            .withDefaultContainerRestriction(
-                                ContainerRestrictions.DEFAULT_CANDIDATE_RESTRICTIONS)));
     this.actions = actions;
   }
 
@@ -205,23 +167,7 @@ public class TaskInfo {
     return variants;
   }
 
-  public Map<String, List<Testcase>> getTaskTests() {
-    return taskTests;
-  }
-
-  public List<Execution> getTaskCompilation() {
-    return taskCompilation;
-  }
-
-  public Map<String, Step> getSteps() {
-    return steps;
-  }
-
-  public Map<String, Action> getActions() {
+  public Set<String> getActions() {
     return actions;
-  }
-
-  public void setTaskId(String taskId) {
-    this.taskId = taskId;
   }
 }
