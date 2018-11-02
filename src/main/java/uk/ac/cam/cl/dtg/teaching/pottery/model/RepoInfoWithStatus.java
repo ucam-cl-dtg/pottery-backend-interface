@@ -18,17 +18,20 @@
 
 package uk.ac.cam.cl.dtg.teaching.pottery.model;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Date;
 
-public class RepoInfo {
+public class RepoInfoWithStatus {
 
   public static final String REMOTE_UNSET = "";
 
   private String repoId;
   private String taskId;
   private boolean usingTestingVersion;
+
+  private RepoStatus status;
+
   private Date expiryDate;
 
   private String variant;
@@ -36,11 +39,11 @@ public class RepoInfo {
   /** If this value is set then indicates that this repo is hosted remotely. */
   private String remote;
 
-  @JsonCreator
-  public RepoInfo(
+  public RepoInfoWithStatus(
       @JsonProperty("repoId") String repoId,
       @JsonProperty("taskId") String taskId,
       @JsonProperty("usingTestingVersion") boolean usingTestingVersion,
+      @JsonProperty("status") RepoStatus status,
       @JsonProperty("expiryDate") Date expiryDate,
       @JsonProperty("variant") String variant,
       @JsonProperty("remote") String remote) {
@@ -48,6 +51,7 @@ public class RepoInfo {
     this.repoId = repoId;
     this.taskId = taskId;
     this.usingTestingVersion = usingTestingVersion;
+    this.status = status;
     this.expiryDate = expiryDate;
     this.variant = variant;
     this.remote = remote;
@@ -79,5 +83,9 @@ public class RepoInfo {
 
   public boolean isRemote() {
     return !remote.equals(REMOTE_UNSET);
+  }
+
+  public RepoStatus getStatus() {
+    return status;
   }
 }
