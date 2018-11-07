@@ -39,6 +39,9 @@ public class RepoInfoWithStatus {
   /** If this value is set then indicates that this repo is hosted remotely. */
   private String remote;
 
+  /** If this value is set then indicates that this repo had an error when being created. */
+  private String errorMessage;
+
   public RepoInfoWithStatus(
       @JsonProperty("repoId") String repoId,
       @JsonProperty("taskId") String taskId,
@@ -46,7 +49,8 @@ public class RepoInfoWithStatus {
       @JsonProperty("status") RepoStatus status,
       @JsonProperty("expiryDate") Date expiryDate,
       @JsonProperty("variant") String variant,
-      @JsonProperty("remote") String remote) {
+      @JsonProperty("remote") String remote,
+      @JsonProperty("errorMessage") String errorMessage) {
     super();
     this.repoId = repoId;
     this.taskId = taskId;
@@ -55,6 +59,7 @@ public class RepoInfoWithStatus {
     this.expiryDate = expiryDate;
     this.variant = variant;
     this.remote = remote;
+    this.errorMessage = errorMessage;
   }
 
   public Date getExpiryDate() {
@@ -83,5 +88,9 @@ public class RepoInfoWithStatus {
 
   public RepoStatus getStatus() {
     return status;
+  }
+
+  public String getErrorMessage() {
+    return errorMessage;
   }
 }

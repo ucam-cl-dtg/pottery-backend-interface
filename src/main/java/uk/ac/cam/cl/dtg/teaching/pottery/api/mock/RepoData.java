@@ -51,7 +51,8 @@ class RepoData {
             RepoStatus.READY,
             cal.getTime(),
             variant,
-            remote);
+            remote,
+            null);
   }
 
   String addTag() {

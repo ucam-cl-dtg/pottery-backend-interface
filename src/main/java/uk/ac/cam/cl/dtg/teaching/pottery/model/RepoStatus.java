@@ -21,5 +21,6 @@ package uk.ac.cam.cl.dtg.teaching.pottery.model;
 public enum RepoStatus {
   CREATING, // The repo is being created but is not ready for use yet. Expiry will not be set.
   READY, // The repo is ready for use and is before its expiry date.
-  EXPIRED // The repo has expired and is now read-only.
-}
+  EXPIRED, // The repo has expired and is now read-only.
+  ERROR // The repo had a problem initialising and is not usable.
+  }
