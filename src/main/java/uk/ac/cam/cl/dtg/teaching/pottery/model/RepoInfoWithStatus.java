@@ -40,7 +40,7 @@ public class RepoInfoWithStatus {
   /** If this value is set then indicates that this repo had an error when being created. */
   private String errorMessage;
 
-  /** If this value is set then indicates that this repo has a custom problem statement. */
+  /** The task problem statement, or the repo custom problem statement if there is one.  */
   private String problemStatement;
 
   public RepoInfoWithStatus(
