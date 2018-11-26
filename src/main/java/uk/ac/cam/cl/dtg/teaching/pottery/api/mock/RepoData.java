@@ -52,6 +52,7 @@ class RepoData {
             cal.getTime(),
             variant,
             remote,
+            null,
             null);
   }
 

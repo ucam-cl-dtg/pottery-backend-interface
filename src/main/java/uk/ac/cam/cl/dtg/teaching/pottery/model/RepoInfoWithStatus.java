@@ -24,8 +24,6 @@ import java.util.Date;
 
 public class RepoInfoWithStatus {
 
-  public static final String REMOTE_UNSET = "";
-
   private String repoId;
   private String taskId;
   private boolean usingTestingVersion;
@@ -42,6 +40,9 @@ public class RepoInfoWithStatus {
   /** If this value is set then indicates that this repo had an error when being created. */
   private String errorMessage;
 
+  /** The task problem statement, or the repo custom problem statement if there is one.  */
+  private String problemStatement;
+
   public RepoInfoWithStatus(
       @JsonProperty("repoId") String repoId,
       @JsonProperty("taskId") String taskId,
@@ -50,7 +51,8 @@ public class RepoInfoWithStatus {
       @JsonProperty("expiryDate") Date expiryDate,
       @JsonProperty("variant") String variant,
       @JsonProperty("remote") String remote,
-      @JsonProperty("errorMessage") String errorMessage) {
+      @JsonProperty("errorMessage") String errorMessage,
+      @JsonProperty("problemStatement") String problemStatement) {
     super();
     this.repoId = repoId;
     this.taskId = taskId;
@@ -60,6 +62,7 @@ public class RepoInfoWithStatus {
     this.variant = variant;
     this.remote = remote;
     this.errorMessage = errorMessage;
+    this.problemStatement = problemStatement;
   }
 
   public Date getExpiryDate() {
@@ -92,5 +95,9 @@ public class RepoInfoWithStatus {
 
   public String getErrorMessage() {
     return errorMessage;
+  }
+
+  public String getProblemStatement() {
+    return problemStatement;
   }
 }

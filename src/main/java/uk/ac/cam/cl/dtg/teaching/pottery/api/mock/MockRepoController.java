@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.ws.rs.core.Response;
+
 import uk.ac.cam.cl.dtg.teaching.pottery.api.RepoController;
 import uk.ac.cam.cl.dtg.teaching.pottery.model.FileData;
 import uk.ac.cam.cl.dtg.teaching.pottery.model.RepoInfoWithStatus;
@@ -32,11 +33,11 @@ public class MockRepoController implements RepoController {
   private Map<String, RepoData> mockRepos = new HashMap<>();
 
   @Override
-  public RepoInfoWithStatus makeRepo(
-      String taskId, Boolean usingTestingVersion, Integer validityMinutes, String variant) {
+  public RepoInfoWithStatus makeRepo(String taskId, Boolean usingTestingVersion,
+                                     Integer validityMinutes, String variant, Integer seed) {
     RepoData repoData =
         new RepoData(taskId, usingTestingVersion, validityMinutes, variant,
-            RepoInfoWithStatus.REMOTE_UNSET);
+            "");
     mockRepos.put(repoData.repoInfo.getRepoId(), repoData);
     return repoData.repoInfo;
   }
@@ -47,7 +48,8 @@ public class MockRepoController implements RepoController {
       Boolean usingTestingVersion,
       Integer validityMinutes,
       String variant,
-      String remote) {
+      String remote,
+      Integer seed) {
     RepoData repoData = new RepoData(taskId, usingTestingVersion, validityMinutes, variant, remote);
     return repoData.repoInfo;
   }

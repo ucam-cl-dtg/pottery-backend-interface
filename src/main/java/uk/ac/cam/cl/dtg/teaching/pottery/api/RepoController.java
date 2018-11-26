@@ -57,7 +57,8 @@ public interface RepoController {
       @FormParam("taskId") String taskId,
       @FormParam("usingTestingVersion") Boolean usingTestingVersion,
       @FormParam("validityMinutes") Integer validityMinutes,
-      @FormParam("variant") String variant)
+      @FormParam("variant") String variant,
+      @FormParam("seed") Integer seed)
       throws TaskNotFoundException, RepoExpiredException, RepoStorageException,
           RetiredTaskException, RepoNotFoundException, TaskMissingVariantException;
 
@@ -72,7 +73,8 @@ public interface RepoController {
       @FormParam("usingTestingVersion") Boolean usingTestingVersion,
       @FormParam("validityMinutes") Integer validityMinutes,
       @FormParam("variant") String variant,
-      @FormParam("remote") String remote)
+      @FormParam("remote") String remote,
+      @FormParam("seed") Integer seed)
       throws TaskNotFoundException, RepoExpiredException, RepoStorageException,
           RetiredTaskException, RepoNotFoundException, TaskMissingVariantException;
 
