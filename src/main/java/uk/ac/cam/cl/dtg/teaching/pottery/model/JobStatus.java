@@ -26,11 +26,13 @@ public class JobStatus implements Comparable<JobStatus> {
   public static final String STATUS_RUNNING = "RUNNING";
   private static AtomicLong counter = new AtomicLong(0);
   private String description;
+  private String workerName;
   private volatile String status;
   private long jobId;
 
-  public JobStatus(String description) {
+  public JobStatus(String description, String workerName) {
     this.description = description;
+    this.workerName = workerName;
     this.status = STATUS_WAITING;
     this.jobId = counter.getAndIncrement();
   }
@@ -53,6 +55,10 @@ public class JobStatus implements Comparable<JobStatus> {
 
   public long getJobId() {
     return jobId;
+  }
+
+  public String getWorkerName() {
+    return workerName;
   }
 
   @Override
