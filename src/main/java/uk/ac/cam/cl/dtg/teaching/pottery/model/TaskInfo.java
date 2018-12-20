@@ -99,10 +99,9 @@ public class TaskInfo {
   private String problemStatement;
 
   @ApiModelProperty(
-      "The number of parameterisations available for this task, or zero if this task is not" +
-          "parameterised.")
+      "The number of parameterisations available for this task, or zero if this task is not"
+          + "parameterised.")
   private int parameterisationCount;
-
 
   @ApiModelProperty("List of questions to ask the candidate about the task")
   private List<String> questions;
