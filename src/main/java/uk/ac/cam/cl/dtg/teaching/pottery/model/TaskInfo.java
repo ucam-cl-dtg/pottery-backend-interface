@@ -98,6 +98,12 @@ public class TaskInfo {
       "The problem statement as an HTML fragment. Use /n to delimit new line characters if needed")
   private String problemStatement;
 
+  @ApiModelProperty(
+      "The number of parameterisations available for this task, or zero if this task is not" +
+          "parameterised.")
+  private int parameterisationCount;
+
+
   @ApiModelProperty("List of questions to ask the candidate about the task")
   private List<String> questions;
 
@@ -116,6 +122,7 @@ public class TaskInfo {
       @JsonProperty("difficulty") String difficulty,
       @JsonProperty("recommendedTimeMinutes") int recommendedTimeMinutes,
       @JsonProperty("problemStatement") String problemStatement,
+      @JsonProperty("parameterisationCount") int parameterisationCount,
       @JsonProperty("questions") List<String> questions,
       @JsonProperty("variants") Set<String> variants,
       @JsonProperty("actions") Set<String> actions) {
@@ -126,6 +133,7 @@ public class TaskInfo {
     this.difficulty = difficulty;
     this.recommendedTimeMinutes = recommendedTimeMinutes;
     this.problemStatement = problemStatement;
+    this.parameterisationCount = parameterisationCount;
     this.questions = questions;
     this.variants = variants;
     this.actions = actions;
@@ -157,6 +165,10 @@ public class TaskInfo {
 
   public String getProblemStatement() {
     return problemStatement;
+  }
+
+  public int getParameterisationCount() {
+    return parameterisationCount;
   }
 
   public List<String> getQuestions() {
