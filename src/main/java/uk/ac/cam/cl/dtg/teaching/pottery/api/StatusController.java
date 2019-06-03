@@ -45,4 +45,13 @@ public interface StatusController {
       response = String.class,
       position = 1)
   String checkDockerVersion();
+
+  @GET
+  @Path("/publicKey")
+  @ApiOperation(
+      value =
+          "Return the public key (OpenSSL format) that the server will use when connecting to remote Git repositories",
+      response = String.class,
+      position = 2)
+  String publicKey();
 }

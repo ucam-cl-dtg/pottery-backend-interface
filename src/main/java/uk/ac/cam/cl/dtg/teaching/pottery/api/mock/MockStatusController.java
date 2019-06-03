@@ -38,4 +38,9 @@ public class MockStatusController implements StatusController {
   public String checkDockerVersion() {
     return "TEST-VERSION";
   }
+
+  @Override
+  public String publicKey() {
+    throw new RuntimeException("Unimplemented");
+  }
 }
