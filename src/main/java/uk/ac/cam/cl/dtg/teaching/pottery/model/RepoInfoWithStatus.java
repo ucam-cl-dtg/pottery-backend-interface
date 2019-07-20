@@ -19,7 +19,6 @@
 package uk.ac.cam.cl.dtg.teaching.pottery.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.Date;
 
 public class RepoInfoWithStatus {
@@ -40,7 +39,7 @@ public class RepoInfoWithStatus {
   /** If this value is set then indicates that this repo had an error when being created. */
   private String errorMessage;
 
-  /** The task problem statement, or the repo custom problem statement if there is one.  */
+  /** The task problem statement, or the repo custom problem statement if there is one. */
   private String problemStatement;
 
   public RepoInfoWithStatus(

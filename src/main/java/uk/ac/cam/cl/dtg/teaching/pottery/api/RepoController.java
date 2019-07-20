@@ -80,8 +80,7 @@ public interface RepoController {
 
   @GET
   @Path("/{repoId}/status")
-  @ApiOperation(
-      value = "Get the status of a repository")
+  @ApiOperation(value = "Get the status of a repository")
   RepoInfoWithStatus getStatus(@PathParam("repoId") String repoId)
       throws RepoStorageException, RepoNotFoundException;
 

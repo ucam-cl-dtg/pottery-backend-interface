@@ -23,4 +23,4 @@ public enum RepoStatus {
   READY, // The repo is ready for use and is before its expiry date.
   EXPIRED, // The repo has expired and is now read-only.
   ERROR // The repo had a problem initialising and is not usable.
-  }
+}
