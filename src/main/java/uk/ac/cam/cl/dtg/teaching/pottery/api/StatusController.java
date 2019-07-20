@@ -40,6 +40,7 @@ public interface StatusController {
 
   @GET
   @Path("/dockerVersion")
+  @Produces("text/plain")
   @ApiOperation(
       value = "Query the docker api for the version number",
       response = String.class,
@@ -48,6 +49,7 @@ public interface StatusController {
 
   @GET
   @Path("/publicKey")
+  @Produces("text/plain")
   @ApiOperation(
       value =
           "Return the public key (OpenSSL format) that the server will use when connecting to "
