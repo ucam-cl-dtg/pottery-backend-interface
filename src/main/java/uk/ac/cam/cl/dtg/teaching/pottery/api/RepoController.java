@@ -29,6 +29,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 import uk.ac.cam.cl.dtg.teaching.pottery.exceptions.RepoExpiredException;
@@ -108,12 +109,15 @@ public interface RepoController {
   @Produces("application/octet-stream")
   @ApiOperation(
       value = "Read a file from the repository",
-      notes = "Returns the file contents directly",
+      notes =
+          "Returns the file contents directly. If set the query parameter altFileName will "
+              + "override the fileName from the path.",
       position = 2)
   Response readFile(
       @PathParam("repoId") String repoId,
       @PathParam("tag") String tag,
-      @PathParam("fileName") String fileName)
+      @PathParam("fileName") String fileName,
+      @QueryParam("altFileName") String altFileName)
       throws RepoStorageException, RepoFileNotFoundException, RepoNotFoundException,
           RepoTagNotFoundException;
 
@@ -124,12 +128,14 @@ public interface RepoController {
       value = "Update (or create) a file in the repository",
       notes =
           "Any required directories will be created automatically. The new contents of the file "
-              + "should be submitted as a multipart form request",
+              + "should be submitted as a multipart form request. If set the query parameter "
+              + "altFileName will override the fileName from the path.",
       position = 3)
   Response updateFile(
       @PathParam("repoId") String repoId,
       @PathParam("tag") String tag,
       @PathParam("fileName") String fileName,
+      @QueryParam("altFileName") String altFileName,
       @MultipartForm FileData file)
       throws RepoStorageException, RepoExpiredException, RepoFileNotFoundException,
           RepoNotFoundException;
@@ -140,7 +146,8 @@ public interface RepoController {
   Response deleteFile(
       @PathParam("repoId") String repoId,
       @PathParam("tag") String tag,
-      @PathParam("fileName") String fileName)
+      @PathParam("fileName") String fileName,
+      @QueryParam("altFileName") String altFileName)
       throws RepoStorageException, RepoExpiredException, RepoFileNotFoundException,
           RepoNotFoundException;
 

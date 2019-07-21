@@ -71,17 +71,18 @@ public class MockRepoController implements RepoController {
   }
 
   @Override
-  public Response readFile(String repoId, String tag, String fileName) {
+  public Response readFile(String repoId, String tag, String fileName, String altFileName) {
     throw new Error("readFile is unimplemented");
   }
 
   @Override
-  public Response updateFile(String repoId, String tag, String fileName, FileData file) {
+  public Response updateFile(
+      String repoId, String tag, String fileName, String altFileName, FileData file) {
     throw new Error("updateFile is unimplemented");
   }
 
   @Override
-  public Response deleteFile(String repoId, String tag, String fileName) {
+  public Response deleteFile(String repoId, String tag, String fileName, String altFileName) {
     throw new Error("deleteFile is unimplemented");
   }
 

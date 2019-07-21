@@ -165,11 +165,14 @@ public interface TasksController {
   @Produces("application/octet-stream")
   @ApiOperation(
       value = "Read a file from the task skeleton",
-      notes = "Returns the file contents directly")
+      notes =
+          "Returns the file contents directly. If set altFileName will override the fileName "
+              + "in the path.")
   Response readSkeletonFile(
       @PathParam("taskId") String taskId,
       @PathParam("variant") String variant,
       @PathParam("fileName") String fileName,
+      @QueryParam("altFileName") String altFileName,
       @QueryParam("usingTestingVersion") Boolean usingTestingVersion)
       throws TaskNotFoundException, TaskMissingVariantException;
 
