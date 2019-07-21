@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class TaskInfo {
@@ -110,6 +111,9 @@ public class TaskInfo {
   @ApiModelProperty("Actions that can be requested for this task")
   private Set<String> actions;
 
+  @ApiModelProperty("Freeform set of properties to pass to frontend")
+  private Map<String, String> properties;
+
   @JsonCreator
   public TaskInfo(
       @JsonProperty("taskId") String taskId,
@@ -122,7 +126,8 @@ public class TaskInfo {
       @JsonProperty("parameterisationCount") int parameterisationCount,
       @JsonProperty("questions") List<String> questions,
       @JsonProperty("variants") Set<String> variants,
-      @JsonProperty("actions") Set<String> actions) {
+      @JsonProperty("actions") Set<String> actions,
+      @JsonProperty("properties") Map<String, String> properties) {
     this.taskId = taskId;
     this.type = type;
     this.name = name;
@@ -134,6 +139,7 @@ public class TaskInfo {
     this.questions = questions;
     this.variants = variants;
     this.actions = actions;
+    this.properties = properties;
   }
 
   public String getTaskId() {
@@ -178,5 +184,9 @@ public class TaskInfo {
 
   public Set<String> getActions() {
     return actions;
+  }
+
+  public Map<String, String> getProperties() {
+    return properties;
   }
 }
