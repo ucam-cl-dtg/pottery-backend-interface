@@ -22,22 +22,19 @@ public class ContainerExecutionException extends Exception {
 
   private static final long serialVersionUID = 1L;
 
-  public ContainerExecutionException() {}
+  private final String containerName;
 
-  public ContainerExecutionException(String message) {
+  public ContainerExecutionException(String message, String containerName) {
     super(message);
+    this.containerName = containerName;
   }
 
-  public ContainerExecutionException(Throwable cause) {
-    super(cause);
-  }
-
-  public ContainerExecutionException(String message, Throwable cause) {
+  public ContainerExecutionException(String message, String containerName, Throwable cause) {
     super(message, cause);
+    this.containerName = containerName;
   }
 
-  public ContainerExecutionException(
-      String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-    super(message, cause, enableSuppression, writableStackTrace);
+  public String getContainerName() {
+    return containerName;
   }
 }
