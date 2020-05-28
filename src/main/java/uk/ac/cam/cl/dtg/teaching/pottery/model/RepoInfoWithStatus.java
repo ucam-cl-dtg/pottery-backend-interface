@@ -18,6 +18,7 @@
 
 package uk.ac.cam.cl.dtg.teaching.pottery.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
 
@@ -42,6 +43,7 @@ public class RepoInfoWithStatus {
   /** The task problem statement, or the repo custom problem statement if there is one. */
   private String problemStatement;
 
+  @JsonCreator
   public RepoInfoWithStatus(
       @JsonProperty("repoId") String repoId,
       @JsonProperty("taskId") String taskId,
