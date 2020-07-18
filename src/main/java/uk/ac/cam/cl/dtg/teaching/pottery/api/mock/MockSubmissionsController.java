@@ -44,7 +44,8 @@ public class MockSubmissionsController implements SubmissionsController {
             "output",
             Submission.STATUS_COMPLETE,
             -1,
-            String.format("Polling %d", counter.incrementAndGet()))
+            String.format("Polling %d", counter.incrementAndGet()),
+            "container-name")
         .build();
   }
 
