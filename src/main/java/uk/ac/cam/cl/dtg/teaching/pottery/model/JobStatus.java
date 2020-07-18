@@ -18,6 +18,8 @@
 
 package uk.ac.cam.cl.dtg.teaching.pottery.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class JobStatus implements Comparable<JobStatus> {
@@ -35,6 +37,18 @@ public class JobStatus implements Comparable<JobStatus> {
     this.workerName = workerName;
     this.status = STATUS_WAITING;
     this.jobId = counter.getAndIncrement();
+  }
+
+  @JsonCreator
+  public JobStatus(
+      @JsonProperty("description") String description,
+      @JsonProperty("workerName") String workerName,
+      @JsonProperty("status") String status,
+      @JsonProperty("jobId") long jobId) {
+    this.description = description;
+    this.workerName = workerName;
+    this.status = status;
+    this.jobId = jobId;
   }
 
   public static AtomicLong getCounter() {

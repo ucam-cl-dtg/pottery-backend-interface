@@ -84,7 +84,7 @@ public class BuilderInfo {
       @JsonProperty("status") String status,
       @JsonProperty("exception") SerializableException exception,
       @JsonProperty("testCompileResponse") String testCompileResponse,
-      @JsonProperty("solutionCompileResponse") String solutionTestingResponse) {
+      @JsonProperty("solutionTestingResponse") String solutionTestingResponse) {
     this.sha1 = sha1;
     this.status = status;
     this.exception = exception;
