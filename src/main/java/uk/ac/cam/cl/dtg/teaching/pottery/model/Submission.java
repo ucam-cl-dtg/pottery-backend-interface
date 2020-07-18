@@ -150,6 +150,7 @@ public class Submission {
           WAIT_STEP_NAME,
           STATUS_COMPLETE,
           System.currentTimeMillis() - dateScheduled.getTime(),
+          null,
           null);
     }
 
@@ -157,11 +158,12 @@ public class Submission {
       if (this.currentStepName() != null) {
         throw new IllegalArgumentException();
       }
-      this.steps.add(new StepResult(name, STATUS_RUNNING, 0));
+      this.steps.add(new StepResult(name, STATUS_RUNNING, 0, null));
       return this;
     }
 
-    public Builder completeStep(String name, String status, long msec, @Nullable String output) {
+    public Builder completeStep(
+        String name, String status, long msec, @Nullable String output, String containerName) {
       if (!this.currentStepName().equals(name)) {
         throw new IllegalArgumentException();
       }
@@ -169,7 +171,7 @@ public class Submission {
         throw new IllegalArgumentException();
       }
       this.steps.removeLast();
-      this.steps.offerLast(new StepResult(name, status, msec, output));
+      this.steps.offerLast(new StepResult(name, status, msec, output, containerName));
       return this;
     }
 

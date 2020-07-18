@@ -27,23 +27,27 @@ public class StepResult {
   private final String status;
   private final long msec;
   private final String output;
+  private final String containerName;
 
   @JsonCreator
   public StepResult(
       @JsonProperty("name") String name,
       @JsonProperty("status") String status,
-      @JsonProperty("msec") long msec) {
+      @JsonProperty("msec") long msec,
+      @JsonProperty("containerName") String containerName) {
     this.name = name;
     this.status = status;
     this.msec = msec;
     this.output = null;
+    this.containerName = containerName;
   }
 
-  StepResult(String name, String status, long msec, String output) {
+  StepResult(String name, String status, long msec, String output, String containerName) {
     this.name = name;
     this.status = status;
     this.msec = msec;
     this.output = output;
+    this.containerName = containerName;
   }
 
   public String getName() {
@@ -61,5 +65,9 @@ public class StepResult {
   @JsonIgnore
   public String getOutput() {
     return output;
+  }
+
+  public String getContainerName() {
+    return containerName;
   }
 }
