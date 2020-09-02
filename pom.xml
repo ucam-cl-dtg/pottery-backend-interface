@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>uk.ac.cam.cl.dtg.teaching</groupId>
     <artifactId>pottery-backend-interface</artifactId>
@@ -135,7 +136,7 @@
                     <execution>
                         <id>validate</id>
                         <phase>compile</phase>
-			<configuration>
+                        <configuration>
                             <configLocation>checkstyle.xml</configLocation>
                             <encoding>UTF-8</encoding>
                             <consoleOutput>true</consoleOutput>
@@ -153,22 +154,21 @@
                 </executions>
             </plugin>
             <plugin>
-              <groupId>com.coveo</groupId>
-              <artifactId>fmt-maven-plugin</artifactId>
-              <version>2.9</version>
-	      <configuration>
-		<verbose>true</verbose>
-	      </configuration>
-              <executions>
-                <execution>
-		  <phase>compile</phase>
-                  <goals>
-                    <goal>check</goal>
-                  </goals>
-                </execution>
-              </executions>
+                <groupId>com.coveo</groupId>
+                <artifactId>fmt-maven-plugin</artifactId>
+                <version>2.9</version>
+                <configuration>
+                    <verbose>true</verbose>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
-
 </project>
