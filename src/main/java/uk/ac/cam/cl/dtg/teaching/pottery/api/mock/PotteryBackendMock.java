@@ -30,6 +30,7 @@ public class PotteryBackendMock implements PotteryBackend {
   private final MockSubmissionsController submissionsController = new MockSubmissionsController();
   private final MockRepoController repoController = new MockRepoController();
   private final MockStatusController statusController = new MockStatusController();
+  private final MockTasksController tasksController = new MockTasksController();
 
   @Override
   public RepoController getRepoController() {
@@ -48,11 +49,11 @@ public class PotteryBackendMock implements PotteryBackend {
 
   @Override
   public TasksController getTasksController() {
-    throw new Error("TasksController is unimplemented");
+    return tasksController;
   }
 
   @Override
   public WorkerController getWorkerController() {
-    throw new Error("WorkedController is unimplemented");
+    throw new Error("WorkerController is unimplemented");
   }
 }
