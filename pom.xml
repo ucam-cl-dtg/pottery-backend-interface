@@ -8,7 +8,7 @@
     <name>pottery-backend-interface</name>
 
     <properties>
-        <resteasy.version>3.0.8.Final</resteasy.version>
+        <resteasy.version>3.0.11.Final</resteasy.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
